@@ -1,0 +1,43 @@
+---
+title: "Title"
+author: ""
+date: "`r Sys.Date()`"
+output:
+  html_document: 
+    theme: spacelab
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, warning=FALSE}
+#if there's anymore libraries we might need, include them here :)
+library(tidyverse)
+library(RColorBrewer)
+library(paletteer)
+library(janitor)
+library(here)
+library(naniar)
+```
+
+```{r}
+plants <- read_csv(here("plantInfo-clean.csv")) %>%
+  janitor::clean_names()
+plants
+```
+
+```{r}
+plants %>%
+  separate(alternate_name, into = c("alt_name_1", "alt_name_2"), sep = ",") %>%
+  separate(space_instructions, into = c("delete", "value"), sep = ":") %>%
+  separate(value, into = c("min_in_apart", "max_in_apart"), sep = "-") %>%
+  separate(min_in_apart, into = c("delete_2", "min_in_apart", "delete_3"), sep = " ") %>%
+  separate(max_in_apart, into = c("delete_4", "max_in_apart", "delete_5"), sep = " ") %>%
+  separate(harvest_instructions, into = c("delete_6", "delete_7", "harvest_time_wks", "delete_8"), sep = " ") %>%
+  select(-"delete", -"delete_2", -"delete_3", -"delete_4", -"delete_5", -"delete_6", -"delete_7") %>%
+  separate(harvest_time_wks, into = c("min_harvest_time_wks", "max_harvest_time_wks"), sep = "-")
+```
+
+
