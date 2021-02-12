@@ -410,7 +410,7 @@ library(paletteer)
 library(janitor)
 library(here)
 library(naniar)</code></pre>
-<pre class="r"><code>plants &lt;- read_csv(here(&quot;plantInfo-clean.csv&quot;)) %&gt;%
+<pre class="r"><code>plants &lt;- read_csv(here(&quot;plantInfo-clean-new.csv&quot;)) %&gt;%
   janitor::clean_names()</code></pre>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -430,59 +430,79 @@ library(naniar)</code></pre>
 <pre><code>## # A tibble: 92 x 10
 ##    name  alternate_name sow_instructions space_instructi… harvest_instruc…
 ##    &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           
-##  1 Amar… Love-lies-ble… Sow in garden. … Space plants: 2… Harvest in 7-8 …
-##  2 Ange… &lt;NA&gt;           Easy to grow. S… Space plants: 1… Harvest in appr…
-##  3 Arti… &lt;NA&gt;           Easy to grow. S… Space plants: 6… Harvest in 42-5…
-##  4 Aspa… &lt;NA&gt;           Easy to grow. P… Space plants: 8… Harvest in 2-3 …
-##  5 Aspa… Winged bean    Easy to grow. S… Space plants: 8… Harvest in 8-11…
+##  1 Amar… Love-lies-ble… Sow in garden~ … Space plants: 2… Harvest in 7-8 …
+##  2 Ange… &lt;NA&gt;           Sow in garden~ … Space plants: 1… Harvest in 18 m…
+##  3 Arti… &lt;NA&gt;           Sow in garden~ … Space plants: 6… Harvest in 42-5…
+##  4 Aspa… &lt;NA&gt;           ~ Plant as crow… Space plants: 8… Harvest in 2-3 …
+##  5 Aspa… Winged bean    Sow in garden~ … Space plants: 8… Harvest in 8-11…
 ##  6 Basil &lt;NA&gt;           Grow in seed tr… Space plants: 8… Harvest in 10-1…
-##  7 Beet… Beets          Easy to grow. S… Space plants: 8… Harvest in 7-10…
-##  8 Bora… Burrage, Bugl… Easy to grow. S… Space plants: 8… Harvest in 8-10…
-##  9 Broa… Fava bean      Easy to grow. S… Space plants: 6… Harvest in 12-2…
-## 10 Broc… &lt;NA&gt;           Easy to grow. G… Space plants: 1… Harvest in 10-1…
+##  7 Beet… Beets          Sow in garden~ … Space plants: 8… Harvest in 7-10…
+##  8 Bora… Burrage, Bugl… Sow in garden~ … Space plants: 8… Harvest in 8-10…
+##  9 Broa… Fava bean      Sow in garden~ … Space plants: 6… Harvest in 12-2…
+## 10 Broc… &lt;NA&gt;           Grow in seed tr… Space plants: 1… Harvest in 10-1…
 ## # … with 82 more rows, and 5 more variables: compatible_plants &lt;chr&gt;,
 ## #   avoid_instructions &lt;chr&gt;, culinary_hints &lt;chr&gt;,
 ## #   culinary_preservation &lt;chr&gt;, url &lt;chr&gt;</code></pre>
 <pre class="r"><code>plants %&gt;%
-  separate(alternate_name, into = c(&quot;alt_name_1&quot;, &quot;alt_name_2&quot;), sep = &quot;,&quot;) %&gt;%
-  separate(space_instructions, into = c(&quot;delete&quot;, &quot;value&quot;), sep = &quot;:&quot;) %&gt;%
-  separate(value, into = c(&quot;min_in_apart&quot;, &quot;max_in_apart&quot;), sep = &quot;-&quot;) %&gt;%
-  separate(min_in_apart, into = c(&quot;delete_2&quot;, &quot;min_in_apart&quot;, &quot;delete_3&quot;), sep = &quot; &quot;) %&gt;%
-  separate(max_in_apart, into = c(&quot;delete_4&quot;, &quot;max_in_apart&quot;, &quot;delete_5&quot;), sep = &quot; &quot;) %&gt;%
-  separate(harvest_instructions, into = c(&quot;delete_6&quot;, &quot;delete_7&quot;, &quot;harvest_time_wks&quot;, &quot;delete_8&quot;), sep = &quot; &quot;) %&gt;%
-  select(-&quot;delete&quot;, -&quot;delete_2&quot;, -&quot;delete_3&quot;, -&quot;delete_4&quot;, -&quot;delete_5&quot;, -&quot;delete_6&quot;, -&quot;delete_7&quot;) %&gt;%
-  separate(harvest_time_wks, into = c(&quot;min_harvest_time_wks&quot;, &quot;max_harvest_time_wks&quot;), sep = &quot;-&quot;)</code></pre>
-<pre><code>## Warning: Expected 2 pieces. Additional pieces discarded in 6 rows [25, 26, 51,
-## 75, 77, 78].</code></pre>
-<pre><code>## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 33 rows [1, 5, 7,
-## 9, 12, 22, 24, 29, 35, 37, 42, 43, 46, 50, 52, 55, 56, 57, 64, 65, ...].</code></pre>
+  separate(alternate_name, into = c(&quot;alt_name_1&quot;, &quot;alt_name_2&quot;, &quot;alt_name_3&quot;), sep = &quot;,&quot;) %&gt;%
+  separate(space_instructions, into = c(&quot;delete&quot;, &quot;space&quot;), sep = &quot;:&quot;) %&gt;%
+  separate(space, into = c(&quot;min_space_apart&quot;, &quot;max_space_apart&quot;), sep = &quot;-&quot;) %&gt;%
+  separate(min_space_apart, into = c(&quot;delete2&quot;, &quot;min_space_apart&quot;, &quot;unit_of_mzr_min&quot;), sep = &quot; &quot;) %&gt;%
+  separate(max_space_apart, into = c(&quot;delete4&quot;, &quot;max_space_apart&quot;, &quot;unit_of_mzr_max&quot;), sep = &quot; &quot;) %&gt;%
+  separate(harvest_instructions, into = c(&quot;delete5&quot;, &quot;delete6&quot;, &quot;time&quot;, &quot;unit_of_time&quot;), sep = &quot; &quot;) %&gt;%
+  separate(unit_of_time, into = c(&quot;unit_of_time&quot;, &quot;delete7&quot;), sep = &quot; &quot;) %&gt;%
+  separate(time, into = c(&quot;min_harvest_time&quot;, &quot;max_harvest_time&quot;), sep = &quot;-&quot;) %&gt;%
+  separate(compatible_plants, into = c(&quot;delete9&quot;, &quot;compatible_with&quot;), sep = &quot;:&quot;) %&gt;%
+  separate(avoid_instructions, into = c(&quot;delete10&quot;, &quot;avoid_growing_near&quot;), sep = &quot;:&quot;) %&gt;%
+  separate(culinary_hints, into = c(&quot;culinary_hints_1&quot;, &quot;culinary_hints_2&quot;, &quot;culinary_hints_3&quot;), sep = &quot;/&quot;) %&gt;%
+  separate(culinary_preservation, into = c(&quot;cul_pres_1&quot;, &quot;cul_pres_2&quot;), sep = &quot;/&quot;) %&gt;%
+  separate(sow_instructions, into = c(&quot;where_to_grow&quot;, &quot;sow_step_1&quot;, &quot;sow_step_2&quot;, &quot;sow_step_3&quot;), sep = &quot;~&quot;) %&gt;%
+  separate(where_to_grow, into = c(&quot;where_to_grow&quot;, &quot;delete3&quot;), sep = &quot;,&quot;) %&gt;%
+  select(-&quot;delete&quot;, -&quot;delete2&quot;, -&quot;delete3&quot;, -&quot;delete4&quot;, -&quot;delete5&quot;, -&quot;delete6&quot;, -&quot;delete7&quot;, -&quot;delete9&quot;, -&quot;delete10&quot;)</code></pre>
+<pre><code>## Warning: Expected 3 pieces. Additional pieces discarded in 1 rows [25].</code></pre>
+<pre><code>## Warning: Expected 3 pieces. Missing pieces filled with `NA` in 47 rows [1, 5, 7,
+## 8, 9, 12, 14, 15, 21, 22, 23, 24, 27, 28, 29, 30, 32, 34, 35, 37, ...].</code></pre>
 <pre><code>## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 27 rows [1, 2, 8,
 ## 12, 14, 23, 24, 25, 28, 30, 32, 33, 37, 40, 41, 46, 50, 55, 63, 66, ...].</code></pre>
-<pre><code>## Warning: Expected 3 pieces. Additional pieces discarded in 26 rows [1, 2, 8, 12,
-## 14, 23, 24, 25, 28, 30, 32, 33, 37, 40, 41, 46, 50, 55, 63, 66, ...].</code></pre>
+<pre><code>## Warning: Expected 3 pieces. Additional pieces discarded in 24 rows [1, 2, 8, 12,
+## 14, 23, 24, 25, 30, 32, 33, 40, 41, 46, 50, 55, 63, 66, 69, 71, ...].</code></pre>
 <pre><code>## Warning: Expected 3 pieces. Additional pieces discarded in 65 rows [3, 4, 5, 6,
 ## 7, 9, 10, 11, 13, 15, 16, 17, 18, 19, 20, 21, 22, 26, 27, 29, ...].</code></pre>
-<pre><code>## Warning: Expected 4 pieces. Additional pieces discarded in 45 rows [2, 4, 5, 6,
-## 8, 9, 10, 11, 15, 21, 22, 23, 25, 31, 32, 33, 34, 35, 38, 40, ...].</code></pre>
+<pre><code>## Warning: Expected 4 pieces. Additional pieces discarded in 91 rows [1, 3, 4, 5,
+## 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, ...].</code></pre>
+<pre><code>## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 92 rows [1, 2, 3,
+## 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
 <pre><code>## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 10 rows [2, 25,
 ## 40, 63, 67, 69, 79, 80, 85, 91].</code></pre>
-<pre><code>## # A tibble: 92 x 14
-##    name  alt_name_1 alt_name_2 sow_instructions min_in_apart max_in_apart
-##    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;            &lt;chr&gt;        &lt;chr&gt;       
-##  1 Amar… Love-lies…  &lt;NA&gt;      Sow in garden. … 20           &lt;NA&gt;        
-##  2 Ange… &lt;NA&gt;        &lt;NA&gt;      Easy to grow. S… 18           &lt;NA&gt;        
-##  3 Arti… &lt;NA&gt;        &lt;NA&gt;      Easy to grow. S… 63           79          
-##  4 Aspa… &lt;NA&gt;        &lt;NA&gt;      Easy to grow. P… 8            16          
-##  5 Aspa… Winged be…  &lt;NA&gt;      Easy to grow. S… 8            10          
-##  6 Basil &lt;NA&gt;        &lt;NA&gt;      Grow in seed tr… 8            10          
-##  7 Beet… Beets       &lt;NA&gt;      Easy to grow. S… 8            12          
-##  8 Bora… Burrage    &quot; Bugloss&quot; Easy to grow. S… 8            &lt;NA&gt;        
-##  9 Broa… Fava bean   &lt;NA&gt;      Easy to grow. S… 6            10          
-## 10 Broc… &lt;NA&gt;        &lt;NA&gt;      Easy to grow. G… 14           20          
-## # … with 82 more rows, and 8 more variables: min_harvest_time_wks &lt;chr&gt;,
-## #   max_harvest_time_wks &lt;chr&gt;, delete_8 &lt;chr&gt;, compatible_plants &lt;chr&gt;,
-## #   avoid_instructions &lt;chr&gt;, culinary_hints &lt;chr&gt;,
-## #   culinary_preservation &lt;chr&gt;, url &lt;chr&gt;</code></pre>
+<pre><code>## Warning: Expected 3 pieces. Additional pieces discarded in 38 rows [3, 4, 6, 9,
+## 10, 11, 12, 13, 14, 16, 17, 18, 19, 21, 23, 25, 33, 35, 37, 38, ...].</code></pre>
+<pre><code>## Warning: Expected 3 pieces. Missing pieces filled with `NA` in 20 rows [5, 20,
+## 24, 26, 27, 28, 29, 34, 39, 41, 47, 49, 53, 55, 56, 64, 72, 75, 81, 88].</code></pre>
+<pre><code>## Warning: Expected 2 pieces. Additional pieces discarded in 1 rows [9].</code></pre>
+<pre><code>## Warning: Expected 4 pieces. Additional pieces discarded in 1 rows [30].</code></pre>
+<pre><code>## Warning: Expected 4 pieces. Missing pieces filled with `NA` in 88 rows [1, 2, 3,
+## 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
+<pre><code>## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 88 rows [1, 2, 3,
+## 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, ...].</code></pre>
+<pre><code>## # A tibble: 92 x 23
+##    name  alt_name_1 alt_name_2 alt_name_3 where_to_grow sow_step_1 sow_step_2
+##    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;      &lt;chr&gt;     
+##  1 Amar… Love-lies…  &lt;NA&gt;      &lt;NA&gt;       &quot;Sow in gard… &quot; Sow see… &quot; Best pl…
+##  2 Ange… &lt;NA&gt;        &lt;NA&gt;      &lt;NA&gt;       &quot;Sow in gard… &quot; Sow see… &quot; Best pl…
+##  3 Arti… &lt;NA&gt;        &lt;NA&gt;      &lt;NA&gt;       &quot;Sow in gard… &quot; Sow see… &quot; Best pl…
+##  4 Aspa… &lt;NA&gt;        &lt;NA&gt;      &lt;NA&gt;       &quot;&quot;            &quot; Plant a… &quot; Best pl…
+##  5 Aspa… Winged be…  &lt;NA&gt;      &lt;NA&gt;       &quot;Sow in gard… &quot; Sow see… &quot; Best pl…
+##  6 Basil &lt;NA&gt;        &lt;NA&gt;      &lt;NA&gt;       &quot;Grow in see… &quot; Sow see… &quot; Best pl…
+##  7 Beet… Beets       &lt;NA&gt;      &lt;NA&gt;       &quot;Sow in gard… &quot; Sow see… &quot; Best pl…
+##  8 Bora… Burrage    &quot; Bugloss&quot; &lt;NA&gt;       &quot;Sow in gard… &quot; Sow see… &quot; Best pl…
+##  9 Broa… Fava bean   &lt;NA&gt;      &lt;NA&gt;       &quot;Sow in gard… &quot; Sow see… &quot; Best pl…
+## 10 Broc… &lt;NA&gt;        &lt;NA&gt;      &lt;NA&gt;       &quot;Grow in see… &quot; Sow see… &quot; Best pl…
+## # … with 82 more rows, and 16 more variables: sow_step_3 &lt;chr&gt;,
+## #   min_space_apart &lt;chr&gt;, unit_of_mzr_min &lt;chr&gt;, max_space_apart &lt;chr&gt;,
+## #   unit_of_mzr_max &lt;chr&gt;, min_harvest_time &lt;chr&gt;, max_harvest_time &lt;chr&gt;,
+## #   unit_of_time &lt;chr&gt;, compatible_with &lt;chr&gt;, avoid_growing_near &lt;chr&gt;,
+## #   culinary_hints_1 &lt;chr&gt;, culinary_hints_2 &lt;chr&gt;, culinary_hints_3 &lt;chr&gt;,
+## #   cul_pres_1 &lt;chr&gt;, cul_pres_2 &lt;chr&gt;, url &lt;chr&gt;</code></pre>
 
 
 

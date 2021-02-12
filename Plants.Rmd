@@ -23,21 +23,27 @@ library(naniar)
 ```
 
 ```{r}
-plants <- read_csv(here("plantInfo-clean.csv")) %>%
+plants <- read_csv(here("plantInfo-clean-new.csv")) %>%
   janitor::clean_names()
 plants
 ```
 
 ```{r}
 plants %>%
-  separate(alternate_name, into = c("alt_name_1", "alt_name_2"), sep = ",") %>%
-  separate(space_instructions, into = c("delete", "value"), sep = ":") %>%
-  separate(value, into = c("min_in_apart", "max_in_apart"), sep = "-") %>%
-  separate(min_in_apart, into = c("delete_2", "min_in_apart", "delete_3"), sep = " ") %>%
-  separate(max_in_apart, into = c("delete_4", "max_in_apart", "delete_5"), sep = " ") %>%
-  separate(harvest_instructions, into = c("delete_6", "delete_7", "harvest_time_wks", "delete_8"), sep = " ") %>%
-  select(-"delete", -"delete_2", -"delete_3", -"delete_4", -"delete_5", -"delete_6", -"delete_7") %>%
-  separate(harvest_time_wks, into = c("min_harvest_time_wks", "max_harvest_time_wks"), sep = "-")
+  separate(alternate_name, into = c("alt_name_1", "alt_name_2", "alt_name_3"), sep = ",") %>%
+  separate(space_instructions, into = c("delete", "space"), sep = ":") %>%
+  separate(space, into = c("min_space_apart", "max_space_apart"), sep = "-") %>%
+  separate(min_space_apart, into = c("delete2", "min_space_apart", "unit_of_mzr_min"), sep = " ") %>%
+  separate(max_space_apart, into = c("delete4", "max_space_apart", "unit_of_mzr_max"), sep = " ") %>%
+  separate(harvest_instructions, into = c("delete5", "delete6", "time", "unit_of_time"), sep = " ") %>%
+  separate(unit_of_time, into = c("unit_of_time", "delete7"), sep = " ") %>%
+  separate(time, into = c("min_harvest_time", "max_harvest_time"), sep = "-") %>%
+  separate(compatible_plants, into = c("delete9", "compatible_with"), sep = ":") %>%
+  separate(avoid_instructions, into = c("delete10", "avoid_growing_near"), sep = ":") %>%
+  separate(culinary_hints, into = c("culinary_hints_1", "culinary_hints_2", "culinary_hints_3"), sep = "/") %>%
+  separate(culinary_preservation, into = c("cul_pres_1", "cul_pres_2"), sep = "/") %>%
+  separate(sow_instructions, into = c("where_to_grow", "sow_step_1", "sow_step_2", "sow_step_3"), sep = "~") %>%
+  separate(where_to_grow, into = c("where_to_grow", "delete3"), sep = ",") %>%
+  select(-"delete", -"delete2", -"delete3", -"delete4", -"delete5", -"delete6", -"delete7", -"delete9", -"delete10")
 ```
-
 
