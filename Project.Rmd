@@ -1,0 +1,46 @@
+---
+title: "Title"
+author: ""
+date: "`r Sys.Date()`"
+output:
+  html_document: 
+    theme: spacelab
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, warning=FALSE}
+#if there's anymore libraries we might need, include them here :)
+library(tidyverse)
+library(RColorBrewer)
+library(paletteer)
+library(janitor)
+library(here)
+library(naniar)
+```
+
+```{r}
+plant_sizes <- read_csv(here("Plant+Pollinators Data", "Flower size measurements.csv")) %>%
+  janitor::clean_names()
+plant_sizes
+```
+
+```{r}
+plant_pollinators <- read_csv(here("Plant+Pollinators Data", "Pollinator and flower color.csv")) %>%
+  janitor::clean_names()
+plant_pollinators
+```
+
+```{r}
+plant_pollinators %>%
+  separate(color, into = c("color_opt_1", "color_opt_2", "color_opt_3", "color_opt_4"), sep=",")
+```
+
+  separate(pollinator, into = c("pollinator_1", "pollinator_2"), sep=",") %>%
+  separate(color, into = c("color_opt_1", "color_opt_2", "color_opt_3", "color_opt_4"), sep=",")
+  
+
+
