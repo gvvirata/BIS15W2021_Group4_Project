@@ -32,6 +32,7 @@ plants_merge <- merge(plant_sizes, plant_pollinators, by="species")
 plants <- plants_merge %>%
   select(-mean_corolla_length_cm, -standard_deviation_corolla_length_cm, -mean_corolla_width_cm, -standard_deviation_corolla_width_cm, -length_width_ratio) %>%
   rename(color_source="source", pollinator_source="source_1") %>%
+  filter(herbarium_accession_sheet!="NA" & flower_number!="NA" & corolla_length_cm!="NA" & corolla_width_throat_cm!="NA" & color!="NA" & pollinator!="NA") %>%
   mutate_all(funs(str_replace(., " or", ", "))) %>%
   mutate_all(funs(str_replace(., " and", ", "))) %>%
   mutate_all(funs(str_replace(., "/", ", "))) %>%
