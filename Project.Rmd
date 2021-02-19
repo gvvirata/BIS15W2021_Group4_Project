@@ -22,18 +22,12 @@ library(here)
 library(naniar)
 ```
 
-```{r}
-plant_sizes <- read_csv(here("Plant+Pollinators Data", "Flower size measurements.csv")) %>%
-  janitor::clean_names()
-plant_sizes
+```{r, comment=NA, message=FALSE, warning=FALSE}
+plant_sizes <- read_csv(here("Plant+Pollinators Data", "Flower size measurements.csv")) %>% janitor::clean_names()
+plant_pollinators <- read_csv(here("Plant+Pollinators Data", "Pollinator and flower color.csv")) %>% janitor::clean_names()
 ```
 
-```{r}
-plant_pollinators <- read_csv(here("Plant+Pollinators Data", "Pollinator and flower color.csv")) %>%
-  janitor::clean_names()
-plant_pollinators
-```
-```{r}
+```{r, comment=NA, warning=FALSE}
 plants_merge <- merge(plant_sizes, plant_pollinators, by="species")
 plants <- plants_merge %>%
   select(-mean_corolla_length_cm, -standard_deviation_corolla_length_cm, -mean_corolla_width_cm, -standard_deviation_corolla_width_cm, -length_width_ratio) %>%
