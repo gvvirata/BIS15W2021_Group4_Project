@@ -33,14 +33,23 @@ plant_pollinators <- read_csv(here("Plant+Pollinators Data", "Pollinator and flo
   janitor::clean_names()
 plant_pollinators
 ```
-
 ```{r}
-plant_pollinators %>%
-  separate(color, into = c("color_opt_1", "color_opt_2", "color_opt_3", "color_opt_4"), sep=",")
+plants_merge <- merge(plant_sizes, plant_pollinators, by="species")
+plants <- plants_merge %>%
+  select(-mean_corolla_length_cm, -standard_deviation_corolla_length_cm, -mean_corolla_width_cm, -standard_deviation_corolla_width_cm, -length_width_ratio) %>%
+  rename(color_source="source", pollinator_source="source_1") %>%
+  mutate_all(funs(str_replace(., " or", ", "))) %>%
+  mutate_all(funs(str_replace(., " and", ", "))) %>%
+  mutate_all(funs(str_replace(., "/", ", "))) %>%
+  mutate_all(funs(str_replace(., " to", ", "))) %>%
+  separate(color, into=c("color_opt_1", "color_opt_2", "color_opt_3", "color_opt_4"), sep=", ") %>%
+  mutate_all(funs(str_replace(., " primary,", ", "))) %>%
+  mutate_all(funs(str_replace(., " secondary", ""))) %>%
+  mutate_all(funs(str_replace(., "bees", "bee"))) %>%
+  mutate_all(funs(str_replace(., "butterflies", "butterfly"))) %>%
+  mutate_all(funs(str_replace(., "beeflies", "bee-fly"))) %>%
+  mutate_all(funs(str_replace(., "beefly", "bee-fly"))) %>%
+  na_if("autogamous") %>%
+  separate(pollinator, into=c("pollinator_1", "pollinator_2", "pollinator_3"), sep=", ")
+plants
 ```
-
-  separate(pollinator, into = c("pollinator_1", "pollinator_2"), sep=",") %>%
-  separate(color, into = c("color_opt_1", "color_opt_2", "color_opt_3", "color_opt_4"), sep=",")
-  
-
-
