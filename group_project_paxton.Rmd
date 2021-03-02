@@ -154,7 +154,10 @@ phlox_long %>%
   geom_bar()
 ```
 ```{r}
-
+phlox_long %>%
+  count(species, color) %>%
+  ggplot(aes(x= color))+
+  geom_bar()
 ```
 
 
