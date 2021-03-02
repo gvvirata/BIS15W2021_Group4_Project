@@ -644,13 +644,12 @@ phlox_merge_test_color2</code></pre>
 <pre class="r"><code>phlox_long &lt;- phlox_merge_test_color2 %&gt;% 
   pivot_longer(color_1:color_4,
                names_to = &quot;color_number&quot;,
-               values_to = &quot;color&quot;,
-               values_drop_na=TRUE) %&gt;% 
+               values_to = &quot;color&quot;) %&gt;% 
   pivot_longer(pollinator_1:pollinator_3,
                names_to = &quot;pollinator_number&quot;,
-               values_to = &quot;pollinator&quot;,
-               values_drop_na=TRUE) %&gt;%
-  select(-color_number, -pollinator_number)
+               values_to = &quot;pollinator&quot;) %&gt;%
+  select(-color_number, -pollinator_number) %&gt;%
+  filter(color!=&quot;NA&quot; &amp; pollinator!=&quot;NA&quot;)
 phlox_long</code></pre>
 <pre><code>## # A tibble: 213 x 10
 ##    species  mean_corolla_len… std_dev_corolla… mean_corolla_wi… std_dev_corolla…

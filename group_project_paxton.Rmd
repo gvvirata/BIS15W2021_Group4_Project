@@ -138,15 +138,15 @@ n_distinct(phlox_merge_test_color$species)
 phlox_long <- phlox_merge_test_color2 %>% 
   pivot_longer(color_1:color_4,
                names_to = "color_number",
-               values_to = "color",
-               values_drop_na=TRUE) %>% 
+               values_to = "color") %>% 
   pivot_longer(pollinator_1:pollinator_3,
                names_to = "pollinator_number",
-               values_to = "pollinator",
-               values_drop_na=TRUE) %>%
-  select(-color_number, -pollinator_number)
+               values_to = "pollinator") %>%
+  select(-color_number, -pollinator_number) %>%
+  filter(color!="NA" & pollinator!="NA")
 phlox_long
 ```
+
 
 ```{r}
 phlox_long %>% 
