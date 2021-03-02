@@ -429,10 +429,10 @@ library(janitor)</code></pre>
 <p>#Flower sizes data</p>
 <pre class="r"><code>flower_sizes &lt;- flower_sizes_original%&gt;% 
   select(herbarium_accession_sheet, species, flower_number, corolla_length_cm, corolla_width_throat_cm) %&gt;% 
-  filter(herbarium_accession_sheet != &quot;NA&quot;) #%&gt;% 
-  #filter(corolla_length_cm != &quot;NA&quot;, corolla_width_throat_cm != &quot;NA&quot;)
+  filter(herbarium_accession_sheet != &quot;NA&quot;) %&gt;% 
+  filter(corolla_length_cm != &quot;NA&quot;, corolla_width_throat_cm != &quot;NA&quot;)
 flower_sizes</code></pre>
-<pre><code>## # A tibble: 3,065 x 5
+<pre><code>## # A tibble: 3,006 x 5
 ##    herbarium_accessio… species   flower_number corolla_length_… corolla_width_t…
 ##    &lt;chr&gt;               &lt;chr&gt;             &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
 ##  1 Acanthogilia glori… Acanthog…             1             3.55            0.393
@@ -445,9 +445,9 @@ flower_sizes</code></pre>
 ##  8 Aliciella formosa … Aliciell…             1             1.97            0.201
 ##  9 Aliciella formosa … Aliciell…             2             2.12            0.286
 ## 10 Aliciella formosa … Aliciell…             3             2.05            0.23 
-## # … with 3,055 more rows</code></pre>
+## # … with 2,996 more rows</code></pre>
 <pre class="r"><code>glimpse(flower_sizes)</code></pre>
-<pre><code>## Rows: 3,065
+<pre><code>## Rows: 3,006
 ## Columns: 5
 ## $ herbarium_accession_sheet &lt;chr&gt; &quot;Acanthogilia gloriosa KANU00172801&quot;, &quot;Acant…
 ## $ species                   &lt;chr&gt; &quot;Acanthogilia gloriosa&quot;, &quot;Acanthogilia glori…
@@ -458,11 +458,11 @@ flower_sizes</code></pre>
 <pre><code>## # A tibble: 5 x 3
 ##   variable                  n_miss pct_miss
 ##   &lt;chr&gt;                      &lt;int&gt;    &lt;dbl&gt;
-## 1 corolla_width_throat_cm       51    1.66 
-## 2 corolla_length_cm             20    0.653
-## 3 herbarium_accession_sheet      0    0    
-## 4 species                        0    0    
-## 5 flower_number                  0    0</code></pre>
+## 1 herbarium_accession_sheet      0        0
+## 2 species                        0        0
+## 3 flower_number                  0        0
+## 4 corolla_length_cm              0        0
+## 5 corolla_width_throat_cm        0        0</code></pre>
 <pre class="r"><code>#any_na(flower_sizes)</code></pre>
 <pre class="r"><code>flower_sizes_calculated &lt;- flower_sizes %&gt;% 
   group_by(species) %&gt;% 
@@ -473,7 +473,7 @@ flower_sizes</code></pre>
          mean_length_width_ratio = mean_corolla_length_cm/mean_corolla_width_throat_cm) %&gt;% 
   select(species, mean_corolla_length_cm, std_dev_corolla_length, mean_corolla_width_throat_cm, std_dev_corolla_width_throat, mean_length_width_ratio)
 flower_sizes_calculated</code></pre>
-<pre><code>## # A tibble: 397 x 6
+<pre><code>## # A tibble: 396 x 6
 ##    species  mean_corolla_len… std_dev_corolla… mean_corolla_wi… std_dev_corolla…
 ##    &lt;chr&gt;                &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
 ##  1 Acantho…             3.20            0.506            0.398            0.0391
@@ -486,74 +486,74 @@ flower_sizes_calculated</code></pre>
 ##  8 Aliciel…             0.518           0.110            0.0963           0.0220
 ##  9 Aliciel…             0.636           0.0187           0.128            0.0255
 ## 10 Aliciel…             0.665           0.0471           0.141            0.0122
-## # … with 387 more rows, and 1 more variable: mean_length_width_ratio &lt;dbl&gt;</code></pre>
+## # … with 386 more rows, and 1 more variable: mean_length_width_ratio &lt;dbl&gt;</code></pre>
 <pre class="r"><code>#Check to see if this is the correct number of species :) 
 n_distinct(flower_sizes_original$species)</code></pre>
 <pre><code>## [1] 397</code></pre>
 <p>#There are 397 species in our data. Object <code>flower_sizes_calculated</code> should be used for the merge.</p>
 <p>#Pollinator and Color Data</p>
 <pre class="r"><code>colors_and_pollinators &lt;- colors_and_pollinators_original %&gt;% 
-  rename(color_source=&quot;source&quot;, pollinator_source=&quot;source_1&quot;) #%&gt;% 
-  #filter(color != &quot;NA&quot;, pollinator != &quot;NA&quot;)
+  rename(color_source=&quot;source&quot;, pollinator_source=&quot;source_1&quot;) %&gt;% 
+  filter(color != &quot;NA&quot;, pollinator != &quot;NA&quot;)
 names(colors_and_pollinators)</code></pre>
 <pre><code>## [1] &quot;species&quot;           &quot;color&quot;             &quot;color_source&quot;     
 ## [4] &quot;pollinator&quot;        &quot;pollinator_source&quot;</code></pre>
 <pre class="r"><code>glimpse(colors_and_pollinators)</code></pre>
-<pre><code>## Rows: 429
+<pre><code>## Rows: 192
 ## Columns: 5
 ## $ species           &lt;chr&gt; &quot;Acanthogilia gloriosa&quot;, &quot;Aliciella caespitosa&quot;, &quot;Al…
-## $ color             &lt;chr&gt; &quot;white&quot;, &quot;red&quot;, &quot;pink&quot;, &quot;pink&quot;, &quot;pink&quot;, &quot;white&quot;, &quot;pi…
+## $ color             &lt;chr&gt; &quot;white&quot;, &quot;red&quot;, &quot;white&quot;, &quot;white&quot;, &quot;white&quot;, &quot;blue&quot;, &quot;…
 ## $ color_source      &lt;chr&gt; &quot;Hsu and Hall 2003&quot;, &quot;Porter 1998&quot;, &quot;Porter 1998&quot;, &quot;…
-## $ pollinator        &lt;chr&gt; &quot;hummingbird&quot;, &quot;hummingbird&quot;, NA, NA, NA, &quot;autogamou…
-## $ pollinator_source &lt;chr&gt; &quot;Hsu and Hall 2003&quot;, &quot;Grant and Grant 1965&quot;, NA, NA,…</code></pre>
+## $ pollinator        &lt;chr&gt; &quot;hummingbird&quot;, &quot;hummingbird&quot;, &quot;autogamous&quot;, &quot;autogam…
+## $ pollinator_source &lt;chr&gt; &quot;Hsu and Hall 2003&quot;, &quot;Grant and Grant 1965&quot;, &quot;Grant …</code></pre>
 <pre class="r"><code>n_distinct(colors_and_pollinators$species)</code></pre>
-<pre><code>## [1] 429</code></pre>
+<pre><code>## [1] 192</code></pre>
 <pre class="r"><code>miss_var_summary(colors_and_pollinators)</code></pre>
 <pre><code>## # A tibble: 5 x 3
 ##   variable          n_miss pct_miss
 ##   &lt;chr&gt;              &lt;int&gt;    &lt;dbl&gt;
-## 1 pollinator           237     55.2
-## 2 pollinator_source    237     55.2
-## 3 species                0      0  
-## 4 color                  0      0  
-## 5 color_source           0      0</code></pre>
+## 1 species                0        0
+## 2 color                  0        0
+## 3 color_source           0        0
+## 4 pollinator             0        0
+## 5 pollinator_source      0        0</code></pre>
 <p>#There are 429 distinct species in the<code>colors_and_pollinators</code> data and 397 in the <code>flower_size</code> data. We will use inner_join so that we are only working with species that have data in both data sets.</p>
 <p>#The Merge</p>
 <pre class="r"><code>phlox_merge &lt;- inner_join(flower_sizes_calculated, colors_and_pollinators, by = &quot;species&quot;)
 phlox_merge</code></pre>
-<pre><code>## # A tibble: 293 x 10
+<pre><code>## # A tibble: 145 x 10
 ##    species  mean_corolla_len… std_dev_corolla… mean_corolla_wi… std_dev_corolla…
 ##    &lt;chr&gt;                &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
-##  1 Acantho…             3.20            0.506            0.398            0.0391
-##  2 Aliciel…             1.73            0.131            0.197            0.0467
-##  3 Aliciel…             2.12            0.0894           0.297            0.0645
-##  4 Aliciel…             1.58            0.408            0.209            0.0706
-##  5 Aliciel…             1.11            0.295            0.145            0.0258
-##  6 Aliciel…             0.818           0.129            0.158            0.0640
-##  7 Aliciel…             0.556           0.0207           0.0963           0.0205
-##  8 Aliciel…             0.518           0.110            0.0963           0.0220
-##  9 Aliciel…             0.636           0.0187           0.128            0.0255
-## 10 Aliciel…             0.665           0.0471           0.141            0.0122
-## # … with 283 more rows, and 5 more variables: mean_length_width_ratio &lt;dbl&gt;,
+##  1 Acantho…             3.20            0.506            0.398           0.0391 
+##  2 Aliciel…             1.73            0.131            0.197           0.0467 
+##  3 Aliciel…             0.818           0.129            0.158           0.0640 
+##  4 Aliciel…             0.518           0.110            0.0963          0.0220 
+##  5 Aliciel…             0.213           0.0110           0.0427          0.00569
+##  6 Aliciel…             0.609           0.0376           0.162           0.0202 
+##  7 Aliciel…             1.55            0.167            0.228           0.0323 
+##  8 Allophy…             0.650           0.0309           0.139           0.0523 
+##  9 Allophy…             0.611           0.498            0.121           0.147  
+## 10 Allophy…             0.685           0.0962           0.114           0.0169 
+## # … with 135 more rows, and 5 more variables: mean_length_width_ratio &lt;dbl&gt;,
 ## #   color &lt;chr&gt;, color_source &lt;chr&gt;, pollinator &lt;chr&gt;, pollinator_source &lt;chr&gt;</code></pre>
 <p>#After joining, we have 293 species that we are working with.</p>
 <p>#It’s Plotty Time!</p>
 <pre class="r"><code>phlox_merge %&gt;% 
   count(color)</code></pre>
-<pre><code>## # A tibble: 37 x 2
+<pre><code>## # A tibble: 27 x 2
 ##    color                            n
 ##  * &lt;chr&gt;                        &lt;int&gt;
-##  1 blue                            30
-##  2 blue-purple                     11
+##  1 blue                            16
+##  2 blue-purple                      8
 ##  3 blue-purple and white (both)     1
 ##  4 blue-purple to white             1
 ##  5 blue-violet                      1
 ##  6 bluish-white                     1
-##  7 green                            7
+##  7 green                            5
 ##  8 greenish-yellow                  1
-##  9 lavender                         1
-## 10 light blue                       2
-## # … with 27 more rows</code></pre>
+##  9 light blue                       1
+## 10 light pink                       2
+## # … with 17 more rows</code></pre>
 <pre class="r"><code>phlox_merge_test_color &lt;- phlox_merge %&gt;%
   mutate_all(funs(str_replace(., &quot; or &quot;, &quot;, &quot;))) %&gt;%
   mutate_all(funs(str_replace(., &quot; and &quot;, &quot;, &quot;))) %&gt;%
@@ -578,26 +578,26 @@ phlox_merge</code></pre>
 ## 
 ##   # Using lambdas
 ##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</code></pre>
-<pre><code>## Warning: Expected 4 pieces. Missing pieces filled with `NA` in 292 rows [1, 2,
+<pre><code>## Warning: Expected 4 pieces. Missing pieces filled with `NA` in 144 rows [1, 2,
 ## 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
-<pre><code>## Warning: Expected 3 pieces. Additional pieces discarded in 1 rows [164].</code></pre>
+<pre><code>## Warning: Expected 3 pieces. Additional pieces discarded in 1 rows [96].</code></pre>
 <pre><code>## Warning: Expected 3 pieces. Missing pieces filled with `NA` in 143 rows [1, 2,
-## 6, 8, 11, 14, 18, 21, 22, 23, 24, 25, 26, 28, 29, 34, 36, 37, 39, 41, ...].</code></pre>
+## 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
 <pre class="r"><code>phlox_merge_test_color</code></pre>
-<pre><code>## # A tibble: 293 x 15
+<pre><code>## # A tibble: 145 x 15
 ##    species  mean_corolla_len… std_dev_corolla… mean_corolla_wi… std_dev_corolla…
 ##    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           
 ##  1 Acantho… 3.1955            0.5058705367977… 0.39825          0.0391013640000…
 ##  2 Aliciel… 1.73366666666667  0.1311957824525… 0.1966666666666… 0.0466511879091…
-##  3 Aliciel… 2.11688888888889  0.0894000062142… 0.2972222222222… 0.0644530406144…
-##  4 Aliciel… 1.581             0.4083356462519… 0.2094666666666… 0.0706195710092…
-##  5 Aliciel… 1.10816666666667  0.2946743400207… 0.1446666666666… 0.0257966406081…
-##  6 Aliciel… 0.8175            0.1288716415663… 0.1583333333333… 0.0640145816721…
-##  7 Aliciel… 0.556             0.0207243817760… 0.0963333333333… 0.0205365527779…
-##  8 Aliciel… 0.518             0.1099602200798… 0.0963333333333… 0.0219601912559…
-##  9 Aliciel… 0.636             0.0186815416922… 0.1283333333333… 0.0255016339345…
-## 10 Aliciel… 0.664666666666667 0.0470885690304… 0.1413333333333… 0.0122202018532…
-## # … with 283 more rows, and 10 more variables: mean_length_width_ratio &lt;chr&gt;,
+##  3 Aliciel… 0.8175            0.1288716415663… 0.1583333333333… 0.0640145816721…
+##  4 Aliciel… 0.518             0.1099602200798… 0.0963333333333… 0.0219601912559…
+##  5 Aliciel… 0.213             0.011            0.0426666666666… 0.0056862407030…
+##  6 Aliciel… 0.6095            0.0375752578168… 0.1625           0.0201866292381…
+##  7 Aliciel… 1.5465            0.1665713943381… 0.2278888888888… 0.0322761774996…
+##  8 Allophy… 0.650333333333333 0.0308922859842… 0.1386666666666… 0.0523099735550…
+##  9 Allophy… 0.611433333333333 0.4976104752288… 0.1206333333333… 0.1472439878365…
+## 10 Allophy… 0.685             0.0962392851178… 0.1145           0.0169440254957…
+## # … with 135 more rows, and 10 more variables: mean_length_width_ratio &lt;chr&gt;,
 ## #   color_1 &lt;chr&gt;, color_2 &lt;chr&gt;, color_3 &lt;chr&gt;, color_4 &lt;chr&gt;,
 ## #   color_source &lt;chr&gt;, pollinator_1 &lt;chr&gt;, pollinator_2 &lt;chr&gt;,
 ## #   pollinator_3 &lt;chr&gt;, pollinator_source &lt;chr&gt;</code></pre>
@@ -622,34 +622,34 @@ phlox_merge</code></pre>
   mutate_all(funs(str_replace(., &quot;blue_purple_purple&quot;, &quot;blue_purple&quot;))) %&gt;%
   mutate_all(funs(str_replace(., &quot; [(]both[)]&quot;, &quot;&quot;)))
 phlox_merge_test_color2</code></pre>
-<pre><code>## # A tibble: 293 x 15
+<pre><code>## # A tibble: 145 x 15
 ##    species  mean_corolla_len… std_dev_corolla… mean_corolla_wi… std_dev_corolla…
 ##    &lt;chr&gt;    &lt;chr&gt;             &lt;chr&gt;            &lt;chr&gt;            &lt;chr&gt;           
 ##  1 Acantho… 3.1955            0.5058705367977… 0.39825          0.0391013640000…
 ##  2 Aliciel… 1.73366666666667  0.1311957824525… 0.1966666666666… 0.0466511879091…
-##  3 Aliciel… 2.11688888888889  0.0894000062142… 0.2972222222222… 0.0644530406144…
-##  4 Aliciel… 1.581             0.4083356462519… 0.2094666666666… 0.0706195710092…
-##  5 Aliciel… 1.10816666666667  0.2946743400207… 0.1446666666666… 0.0257966406081…
-##  6 Aliciel… 0.8175            0.1288716415663… 0.1583333333333… 0.0640145816721…
-##  7 Aliciel… 0.556             0.0207243817760… 0.0963333333333… 0.0205365527779…
-##  8 Aliciel… 0.518             0.1099602200798… 0.0963333333333… 0.0219601912559…
-##  9 Aliciel… 0.636             0.0186815416922… 0.1283333333333… 0.0255016339345…
-## 10 Aliciel… 0.664666666666667 0.0470885690304… 0.1413333333333… 0.0122202018532…
-## # … with 283 more rows, and 10 more variables: mean_length_width_ratio &lt;chr&gt;,
+##  3 Aliciel… 0.8175            0.1288716415663… 0.1583333333333… 0.0640145816721…
+##  4 Aliciel… 0.518             0.1099602200798… 0.0963333333333… 0.0219601912559…
+##  5 Aliciel… 0.213             0.011            0.0426666666666… 0.0056862407030…
+##  6 Aliciel… 0.6095            0.0375752578168… 0.1625           0.0201866292381…
+##  7 Aliciel… 1.5465            0.1665713943381… 0.2278888888888… 0.0322761774996…
+##  8 Allophy… 0.650333333333333 0.0308922859842… 0.1386666666666… 0.0523099735550…
+##  9 Allophy… 0.611433333333333 0.4976104752288… 0.1206333333333… 0.1472439878365…
+## 10 Allophy… 0.685             0.0962392851178… 0.1145           0.0169440254957…
+## # … with 135 more rows, and 10 more variables: mean_length_width_ratio &lt;chr&gt;,
 ## #   color_1 &lt;chr&gt;, color_2 &lt;chr&gt;, color_3 &lt;chr&gt;, color_4 &lt;chr&gt;,
 ## #   color_source &lt;chr&gt;, pollinator_1 &lt;chr&gt;, pollinator_2 &lt;chr&gt;,
 ## #   pollinator_3 &lt;chr&gt;, pollinator_source &lt;chr&gt;</code></pre>
 <pre class="r"><code>n_distinct(phlox_merge_test_color$species)</code></pre>
-<pre><code>## [1] 293</code></pre>
+<pre><code>## [1] 145</code></pre>
 <pre class="r"><code>phlox_long &lt;- phlox_merge_test_color2 %&gt;% 
   pivot_longer(color_1:color_4,
                names_to = &quot;color_number&quot;,
                values_to = &quot;color&quot;,
-               values_drop_na = TRUE) %&gt;% 
+               values_drop_na=TRUE) %&gt;% 
   pivot_longer(pollinator_1:pollinator_3,
                names_to = &quot;pollinator_number&quot;,
                values_to = &quot;pollinator&quot;,
-               values_drop_na = TRUE) %&gt;%
+               values_drop_na=TRUE) %&gt;%
   select(-color_number, -pollinator_number)
 phlox_long</code></pre>
 <pre><code>## # A tibble: 213 x 10

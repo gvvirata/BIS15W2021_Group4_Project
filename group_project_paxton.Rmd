@@ -30,8 +30,8 @@ colors_and_pollinators_original <- read_csv(here("Plant+Pollinators Data", "Poll
 ```{r}
 flower_sizes <- flower_sizes_original%>% 
   select(herbarium_accession_sheet, species, flower_number, corolla_length_cm, corolla_width_throat_cm) %>% 
-  filter(herbarium_accession_sheet != "NA") #%>% 
-  #filter(corolla_length_cm != "NA", corolla_width_throat_cm != "NA")
+  filter(herbarium_accession_sheet != "NA") %>% 
+  filter(corolla_length_cm != "NA", corolla_width_throat_cm != "NA")
 flower_sizes
 ```
 ```{r}
@@ -65,8 +65,8 @@ n_distinct(flower_sizes_original$species)
 #Pollinator and Color Data
 ```{r}
 colors_and_pollinators <- colors_and_pollinators_original %>% 
-  rename(color_source="source", pollinator_source="source_1") #%>% 
-  #filter(color != "NA", pollinator != "NA")
+  rename(color_source="source", pollinator_source="source_1") %>% 
+  filter(color != "NA", pollinator != "NA")
 names(colors_and_pollinators)
 ```
 
