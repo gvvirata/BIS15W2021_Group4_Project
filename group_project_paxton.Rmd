@@ -139,11 +139,11 @@ phlox_long <- phlox_merge_test_color2 %>%
   pivot_longer(color_1:color_4,
                names_to = "color_number",
                values_to = "color",
-               values_drop_na = TRUE) %>% 
+               values_drop_na=TRUE) %>% 
   pivot_longer(pollinator_1:pollinator_3,
                names_to = "pollinator_number",
                values_to = "pollinator",
-               values_drop_na = TRUE) %>%
+               values_drop_na=TRUE) %>%
   select(-color_number, -pollinator_number)
 phlox_long
 ```
