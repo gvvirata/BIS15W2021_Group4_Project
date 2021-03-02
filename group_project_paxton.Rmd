@@ -1,0 +1,162 @@
+---
+title: "My Project"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Library
+```{r cars}
+library(tidyverse)
+library(RColorBrewer)
+library(paletteer)
+library(janitor)
+library(here)
+library(naniar)
+```
+
+#Data
+```{r}
+flower_sizes_original <- read_csv(here("Plant+Pollinators Data", "Flower size measurements.csv")) %>% janitor::clean_names()
+colors_and_pollinators_original <- read_csv(here("Plant+Pollinators Data", "Pollinator and flower color.csv")) %>% janitor::clean_names()
+```
+
+#Flower sizes data
+```{r}
+flower_sizes <- flower_sizes_original%>% 
+  select(herbarium_accession_sheet, species, flower_number, corolla_length_cm, corolla_width_throat_cm) %>% 
+  filter(herbarium_accession_sheet != "NA") #%>% 
+  #filter(corolla_length_cm != "NA", corolla_width_throat_cm != "NA")
+flower_sizes
+```
+```{r}
+glimpse(flower_sizes)
+miss_var_summary(flower_sizes)
+```
+
+```{r}
+#any_na(flower_sizes)
+```
+
+```{r}
+flower_sizes_calculated <- flower_sizes %>% 
+  group_by(species) %>% 
+  summarise(mean_corolla_length_cm = mean(corolla_length_cm, na.rm = TRUE),
+         std_dev_corolla_length = sd(corolla_length_cm, na.rm = TRUE),
+         mean_corolla_width_throat_cm = mean(corolla_width_throat_cm, na.rm = TRUE),
+         std_dev_corolla_width_throat = sd(corolla_width_throat_cm, na.rm = TRUE),
+         mean_length_width_ratio = mean_corolla_length_cm/mean_corolla_width_throat_cm) %>% 
+  select(species, mean_corolla_length_cm, std_dev_corolla_length, mean_corolla_width_throat_cm, std_dev_corolla_width_throat, mean_length_width_ratio)
+flower_sizes_calculated
+```
+```{r}
+#Check to see if this is the correct number of species :) 
+n_distinct(flower_sizes_original$species)
+```
+
+#There are 397 species in our data. Object `flower_sizes_calculated` should be used for the merge. 
+
+
+#Pollinator and Color Data
+```{r}
+colors_and_pollinators <- colors_and_pollinators_original %>% 
+  rename(color_source="source", pollinator_source="source_1") #%>% 
+  #filter(color != "NA", pollinator != "NA")
+names(colors_and_pollinators)
+```
+
+```{r}
+glimpse(colors_and_pollinators)
+n_distinct(colors_and_pollinators$species)
+miss_var_summary(colors_and_pollinators)
+```
+#There are 429 distinct species in the`colors_and_pollinators` data and 397 in the `flower_size` data. We will use inner_join so that we are only working with species that have data in both data sets.
+
+#The Merge
+```{r}
+phlox_merge <- inner_join(flower_sizes_calculated, colors_and_pollinators, by = "species")
+phlox_merge
+```
+#After joining, we have 293 species that we are working with. 
+
+#It's Plotty Time!
+```{r}
+phlox_merge %>% 
+  count(color)
+```
+```{r}
+phlox_merge_test_color <- phlox_merge %>%
+  mutate_all(funs(str_replace(., " or ", ", "))) %>%
+  mutate_all(funs(str_replace(., " and ", ", "))) %>%
+  mutate_all(funs(str_replace(., "/", ", "))) %>%
+  mutate_all(funs(str_replace(., " to ", ", "))) %>%
+  separate(color, into=c("color_1", "color_2", "color_3", "color_4"), sep=", ") %>%
+  mutate_all(funs(str_replace(., " primary,", ", "))) %>%
+  mutate_all(funs(str_replace(., " secondary", ""))) %>%
+  mutate_all(funs(str_replace(., "bees", "bee"))) %>%
+  mutate_all(funs(str_replace(., "butterflies", "butterfly"))) %>%
+  mutate_all(funs(str_replace(., "beeflies", "bee-fly"))) %>%
+  mutate_all(funs(str_replace(., "beefly", "bee-fly"))) %>%
+  separate(pollinator, into=c("pollinator_1", "pollinator_2", "pollinator_3"), sep=",")
+phlox_merge_test_color
+```
+
+```{r}
+phlox_merge_test_color2 <- phlox_merge_test_color %>%
+  mutate_all(funs(str_replace(., "white (both)", "white"))) %>%
+  mutate_all(funs(str_replace(., "light pink", "pink"))) %>%
+  mutate_all(funs(str_replace(., "pale pink", "pink"))) %>%
+  mutate_all(funs(str_replace(., "yellow throat", "yellow"))) %>%
+  mutate_all(funs(str_replace(., "lavender", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., "blue-violet", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., "pale violet", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., "violet", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., "blue-purple", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., "purple-blue", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., "light purple", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., "pale purple", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., "pinkish purple", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., "pale blue", "blue_purple"))) %>% 
+  mutate_all(funs(str_replace(., "light blue", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., "purple", "blue_purple"))) %>% 
+  mutate_all(funs(str_replace(., "blue", "blue_purple"))) %>% 
+  mutate_all(funs(str_replace(., "blue_purple_blue_purple", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., "blue_purple_purple", "blue_purple")))
+phlox_merge_test_color2
+```
+```{r}
+n_distinct(phlox_merge_test_color$species)
+```
+
+```{r}
+phlox_long <- phlox_merge_test_color2 %>% 
+  pivot_longer(color_1:color_4,
+               names_to = "color_number",
+               values_to = "color",
+               values_drop_na = TRUE) %>% 
+  pivot_longer(pollinator_1:pollinator_3,
+               names_to = "pollinator_number",
+               values_to = "pollinator",
+               values_drop_na = TRUE)
+phlox_long
+```
+
+```{r}
+phlox_long %>% 
+  filter(color == "white (both)")
+
+phlox_long %>% 
+  ggplot(aes(x= color))+
+  geom_bar()
+```
+```{r}
+
+```
+
+
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
