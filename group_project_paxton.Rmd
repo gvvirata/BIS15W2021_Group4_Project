@@ -108,7 +108,6 @@ phlox_merge_test_color
 
 ```{r}
 phlox_merge_test_color2 <- phlox_merge_test_color %>%
-  mutate_all(funs(str_replace(., "white (both)", "white"))) %>%
   mutate_all(funs(str_replace(., "light pink", "pink"))) %>%
   mutate_all(funs(str_replace(., "pale pink", "pink"))) %>%
   mutate_all(funs(str_replace(., "yellow throat", "yellow"))) %>%
@@ -126,9 +125,11 @@ phlox_merge_test_color2 <- phlox_merge_test_color %>%
   mutate_all(funs(str_replace(., "purple", "blue_purple"))) %>% 
   mutate_all(funs(str_replace(., "blue", "blue_purple"))) %>% 
   mutate_all(funs(str_replace(., "blue_purple_blue_purple", "blue_purple"))) %>%
-  mutate_all(funs(str_replace(., "blue_purple_purple", "blue_purple")))
+  mutate_all(funs(str_replace(., "blue_purple_purple", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., " [(]both[)]", "")))
 phlox_merge_test_color2
 ```
+
 ```{r}
 n_distinct(phlox_merge_test_color$species)
 ```
@@ -142,14 +143,12 @@ phlox_long <- phlox_merge_test_color2 %>%
   pivot_longer(pollinator_1:pollinator_3,
                names_to = "pollinator_number",
                values_to = "pollinator",
-               values_drop_na = TRUE)
+               values_drop_na = TRUE) %>%
+  select(-color_number, -pollinator_number)
 phlox_long
 ```
 
 ```{r}
-phlox_long %>% 
-  filter(color == "white (both)")
-
 phlox_long %>% 
   ggplot(aes(x= color))+
   geom_bar()
