@@ -1,6 +1,8 @@
 ---
 title: "My Project"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 ```{r}
 getwd()
@@ -102,6 +104,10 @@ phlox_merge_test_color <- phlox_merge %>%
   mutate_all(funs(str_replace(., "butterflies", "butterfly"))) %>%
   mutate_all(funs(str_replace(., "beeflies", "bee-fly"))) %>%
   mutate_all(funs(str_replace(., "beefly", "bee-fly"))) %>%
+  mutate_all(funs(str_replace(., "beetles", "beetle"))) %>% 
+  mutate_all(funs(str_replace(., "hawkmoths", "hawkmoth"))) %>% 
+  mutate_all(funs(str_replace(., "flies", "fly"))) %>% 
+  mutate_all(funs(str_replace(., "hummingbirds", "hummingbird"))) %>% 
   separate(pollinator, into=c("pollinator_1", "pollinator_2", "pollinator_3"), sep=",")
 phlox_merge_test_color
 ```
@@ -156,9 +162,50 @@ phlox_long %>%
 ```{r}
 phlox_long %>%
   count(species, color) %>%
-  ggplot(aes(x= color))+
-  geom_bar()
+  ggplot(aes(x= color, fill = color))+
+  geom_bar()+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+  labs(title = "Color Count",
+       x = "Color",
+       y = "Count") +
+  theme(plot.title = element_text(size = rel(1.5), hjust = 1))
 ```
+
+```{r}
+phlox_long %>% 
+  count(species, pollinator) %>%
+  ggplot(aes(x=pollinator))+
+  geom_bar()+
+  coord_flip()+
+  labs(title = "Pollinator Count",
+       x = "Pollinator",
+       y = "Count") +
+  theme(plot.title = element_text(size = rel(1.5), hjust = 1))
+
+```
+```{r}
+phlox_long %>% 
+  filter(pollinator == "bee"| pollinator == "bee-fly" | pollinator == "hummingbird" | pollinator == "hawkmoth" | pollinator == "fly" | pollinator == "butterfly" | pollinator == "beetle" | pollinator == "bat" | pollinator == "autogamous") %>% 
+  count(species, pollinator) %>%
+  ggplot(aes(x=pollinator, fill=pollinator))+
+  geom_bar()+
+  coord_flip()+
+  labs(title = "Pollinator Count",
+       x = "Pollinator",
+       y = "Count") +
+  theme(plot.title = element_text(size = rel(1.5), hjust = 1))
+
+```
+
+
+```{r}
+#library(stringr)
+
+#phlox_long$COL2 <- word(Dataframe2$COL1, 1)
+#Dataframe1$COL2 <- word(Dataframe2$COL1, 1)
+```
+
+
 
 
 
