@@ -65,6 +65,7 @@ library(here)
 
 ```r
 library(naniar)
+library(stringr)
 ```
 
 #Data
@@ -473,6 +474,47 @@ phlox_long
 ## # ... with 203 more rows, and 5 more variables: mean_length_width_ratio <chr>,
 ## #   color_source <chr>, pollinator_source <chr>, color <chr>, pollinator <chr>
 ```
+Adding genus col data:
+
+```r
+genus_name <-phlox_long$genus <- word(phlox_long$species, 1)
+phlox_long %>% 
+  tabyl(genus)
+```
+
+```
+##          genus  n     percent
+##   Acanthogilia  1 0.004694836
+##      Aliciella  6 0.028169014
+##    Allophyllum  6 0.028169014
+##     Bonplandia  1 0.004694836
+##         Cantua  4 0.018779343
+##         Cobaea  9 0.042253521
+##       Collomia  6 0.028169014
+##          Dayia  3 0.014084507
+##      Eriastrum  7 0.032863850
+##     Fouquieria  1 0.004694836
+##          Gilia 33 0.154929577
+##     Giliastrum  2 0.009389671
+##    Gymnosteris  3 0.014084507
+##      Ipomopsis 17 0.079812207
+##     Langloisia  2 0.009389671
+##    Leptosiphon 17 0.079812207
+##      Linanthus  8 0.037558685
+##       Loeselia  1 0.004694836
+##  Loeseliastrum  3 0.014084507
+##     Microgilia  1 0.004694836
+##    Microsteris  1 0.004694836
+##     Navarretia 12 0.056338028
+##          Phlox 45 0.211267606
+##     Polemonium 22 0.103286385
+##     Saltugilia  2 0.009389671
+```
+
+```r
+#Dataframe1$COL2 <- word(Dataframe2$COL1, 1)
+```
+
 
 
 
@@ -482,7 +524,7 @@ phlox_long %>%
   geom_bar()
 ```
 
-![](group_project_paxton_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](group_project_paxton_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 ```r
 phlox_long %>%
@@ -496,7 +538,7 @@ phlox_long %>%
   theme(plot.title = element_text(size = rel(1.5), hjust = 1))
 ```
 
-![](group_project_paxton_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](group_project_paxton_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 
 ```r
@@ -511,7 +553,7 @@ phlox_long %>%
   theme(plot.title = element_text(size = rel(1.5), hjust = 1))
 ```
 
-![](group_project_paxton_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](group_project_paxton_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 ```r
 phlox_long %>% 
@@ -526,16 +568,8 @@ phlox_long %>%
   theme(plot.title = element_text(size = rel(1.5), hjust = 1))
 ```
 
-![](group_project_paxton_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](group_project_paxton_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
-
-
-```r
-#library(stringr)
-
-#phlox_long$COL2 <- word(Dataframe2$COL1, 1)
-#Dataframe1$COL2 <- word(Dataframe2$COL1, 1)
-```
 
 
 

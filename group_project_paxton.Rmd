@@ -20,6 +20,7 @@ library(paletteer)
 library(janitor)
 library(here)
 library(naniar)
+library(stringr)
 ```
 
 #Data
@@ -152,6 +153,14 @@ phlox_long <- phlox_merge_test_color2 %>%
   filter(color!="NA" & pollinator!="NA")
 phlox_long
 ```
+Adding genus col data:
+```{r}
+genus_name <-phlox_long$genus <- word(phlox_long$species, 1)
+phlox_long %>% 
+  tabyl(genus)
+#Dataframe1$COL2 <- word(Dataframe2$COL1, 1)
+```
+
 
 
 ```{r}
@@ -197,13 +206,6 @@ phlox_long %>%
 
 ```
 
-
-```{r}
-#library(stringr)
-
-#phlox_long$COL2 <- word(Dataframe2$COL1, 1)
-#Dataframe1$COL2 <- word(Dataframe2$COL1, 1)
-```
 
 
 
