@@ -66,6 +66,19 @@ library(here)
 ```r
 library(naniar)
 library(stringr)
+library(shiny)
+library(shinydashboard)
+```
+
+```
+## 
+## Attaching package: 'shinydashboard'
+```
+
+```
+## The following object is masked from 'package:graphics':
+## 
+##     box
 ```
 
 #Data
@@ -569,7 +582,82 @@ phlox_long %>%
 ```
 
 ![](group_project_paxton_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+App Attempt:
 
+```r
+phlox_long %>% 
+  summarize(max_c_length = max(mean_corolla_length_cm),
+            max_c_width = max(mean_corolla_width_throat_cm),
+            max_ratio = max(mean_length_width_ratio))
+```
+
+```
+## # A tibble: 1 x 3
+##   max_c_length max_c_width max_ratio       
+##   <chr>        <chr>       <chr>           
+## 1 6.639        3.531       9.99618611746758
+```
+
+```r
+ui <- dashboardPage(
+dashboardHeader(title = "Corolla by Genus"),
+  dashboardSidebar(disable = T),
+  dashboardBody(
+  fluidRow(
+  box(title = "Plot Options", width = 3,
+  selectInput("x", "Select Measurement", choices = c("mean_corolla_length_cm", "mean_corolla_width_throat_cm", "mean_length_width_ratio"), 
+              selected = "Acanthogilia"),
+  hr(),
+      helpText("HELP TEXT OR NO?")
+  ),
+  box(
+  plotOutput("plot", width = "600px", height = "500px")
+  ) 
+  )
+  )
+)
+
+server <- function(input, output, session) { 
+  output$plot <- renderPlot({
+  phlox_long %>% 
+  ggplot(aes_string(x = input$x, y="mean_length_width_ratio", fill="species"))+
+  geom_col()+
+  theme_minimal(base_size = 18)+
+      theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+      labs(title = "Genus measurments",x=NULL,y="Number of Species")
+  })
+ session$onSessionEnded(stopApp)
+  }
+shinyApp(ui, server)
+```
+
+`<div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div>`{=html}
+
+```r
+ui <- fluidPage(
+    selectInput("x", "Select X Variable", choices = c("mean_corolla_length_cm", "mean_corolla_width_throat_cm", "mean_length_width_ratio"),
+              selected = "bill_length_mm"),
+    selectInput("y", "Select Y Variable", choices = c("mean_corolla_length_cm", "mean_corolla_width_throat_cm", "mean_length_width_ratio"),
+              selected = "mean_corolla_length_cm"),
+  plotOutput("plot", width = "1200px", height = "400px")
+)
+
+server <- function(input, output) {
+  output$plot <- renderPlot({
+    ggplot(phlox_long, aes_string(x = input$x, y = input$y, color="genus")) + 
+      geom_point() + 
+      theme_light(base_size = 18)+
+      scale_x_discrete(breaks = seq(0, 10, 1))+
+      scale_y_discrete(breaks = seq(0, 10, 1))
+  })
+}
+
+shinyApp(ui, server)
+```
+
+`<div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div>`{=html}
+
+choices = c("Acanthogilia", "Aliciella", "Allophyllum", "Bonplandia", "Cantua", "Cobaea", "Collomia", "Dayia", "Eriastrum", "Fouquieria", "Gilia", "Giliastrum", "Gymnosteris", "Ipomopsis", "Langloisia", "Leptosiphon", "Linanthus", "Loeselia", "Loeseliastrum", "Microgilia", "Microsteris", "Navarretia", "Phlox", "Polemonium", "Saltugilia")
 
 
 
