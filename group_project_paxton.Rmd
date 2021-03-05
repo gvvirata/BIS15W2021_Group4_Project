@@ -4,18 +4,21 @@ output:
   html_document: 
     keep_md: yes
 ---
-```{r}
-getwd()
-```
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-**Installing Libraries if Necessary
+**Installing Libraries if Necessary (for non-frequent R users)
 ```{r}
 if (!require("tidyverse")) install.packages('tidyverse')
 if (!require("RColorBrewer")) install.packages('RColorBrewer')
+if (!require("paletteer")) install.packages('paletteer')
+if (!require("janitor")) install.packages('janitor')
+if (!require("here")) install.packages('here')
+if (!require("naniar")) install.packages('naniar')
+if (!require("stringr")) install.packages('stringr')
+if (!require("shiny")) install.packages('shiny')
+if (!require("shinydashboard")) install.packages('shinydashboard')
 ```
 
 #Library
@@ -185,7 +188,7 @@ phlox_long %>%
 phlox_long %>%
   filter(color!="NA") %>%
   ggplot(aes(x=color, fill=color)) +
-  geom_bar() +
+  geom_bar(show.legend = FALSE) + #removed legend because it just repeats what the x-axis says
   scale_fill_manual(values = c("blue_purple" = "slateblue",
                                "bluish_white" = "azure2",
                                "green" = "green",
@@ -197,7 +200,7 @@ phlox_long %>%
   theme_dark() +
   theme(panel.background = element_rect(fill = "#2D2D2D"),
         axis.text.x = element_text(angle = 60, hjust = 1),
-        plot.title=element_text(face="bold", hjust=0.5)) +
+        plot.title=element_text(size = rel(1.5), face="bold", hjust=1)) +
   labs(title = "Color Count", x = "Color", y = "Count")
 ```
 ##Pollinator Analysis
@@ -206,6 +209,10 @@ phlox_long %>%
   filter(pollinator!="" & pollinator!="NA") %>%
   count(pollinator) #ISSUE: some pollinators appearing twice with different counts, spacing is not an issue so idk what is
 ```
+```{r}
+view(phlox_long)
+```
+
 ```{r}
 phlox_long %>% 
   filter(pollinator!="NA" & pollinator!="") %>%
