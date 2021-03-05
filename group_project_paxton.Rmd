@@ -12,8 +12,14 @@ getwd()
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+**Installing Libraries if Necessary
+```{r}
+if (!require("tidyverse")) install.packages('tidyverse')
+if (!require("RColorBrewer")) install.packages('RColorBrewer')
+```
+
 #Library
-```{r cars}
+```{r message=FALSE, warning=FALSE, comment=NA}
 library(tidyverse)
 library(RColorBrewer)
 library(paletteer)
@@ -25,100 +31,112 @@ library(shiny)
 library(shinydashboard)
 ```
 
-#Data
-```{r}
-flower_sizes_original <- read_csv(here("Plant+Pollinators Data", "Flower size measurements.csv")) %>% janitor::clean_names()
-colors_and_pollinators_original <- read_csv(here("Plant+Pollinators Data", "Pollinator and flower color.csv")) %>% janitor::clean_names()
+#Loading Original Data Sets
+The following data sets examine the pollinators, colors, and sizes associated with different species of flowers within the phlox family. Source: Landis, Jacob B. et al. (2018), Evolution of floral traits and impact of reproductive mode on diversification in the phlox family (Polemoniaceae), Molecular Phylogenetics and Evolution, Article-journal, https://doi.org/10.1016/j.ympev.2018.06.035
+[Data:](https://datadryad.org/stash/dataset/doi:10.5061/dryad.2710pk5)
+```{r message=FALSE, warning=FALSE, comment=NA}
+flower_sizes_original <- read_csv(here("Plant+Pollinators Data", "Flower size measurements.csv")) %>%
+  janitor::clean_names()
+colors_and_pollinators_original <- read_csv(here("Plant+Pollinators Data", "Pollinator and flower color.csv")) %>%
+  janitor::clean_names()
 ```
 
-#Flower sizes data
-```{r}
-flower_sizes <- flower_sizes_original%>% 
+#Flower Sizes Data
+With the first data set, we'll observe the lengths and widths of each species' corollas, removing any NAs recorded for these variables.
+```{r message=FALSE, warning=FALSE, comment=NA}
+flower_sizes <- flower_sizes_original %>% 
   select(herbarium_accession_sheet, species, flower_number, corolla_length_cm, corolla_width_throat_cm) %>% 
-  filter(herbarium_accession_sheet != "NA") %>% 
   filter(corolla_length_cm != "NA", corolla_width_throat_cm != "NA")
 flower_sizes
 ```
-```{r}
+```{r message=FALSE, warning=FALSE, comment=NA}
 glimpse(flower_sizes)
-miss_var_summary(flower_sizes)
+```
+```{r message=FALSE, warning=FALSE, comment=NA}
+flower_sizes %>%
+  miss_var_summary() #This is to confirm that we have removed all NAs represented as "NA" from the size columns, as well as to get a count of any other NAs in the remaining columns
 ```
 
-```{r}
-#any_na(flower_sizes)
-```
-
-```{r}
+```{r message=FALSE, warning=FALSE, comment=NA}
 flower_sizes_calculated <- flower_sizes %>% 
   group_by(species) %>% 
   summarise(mean_corolla_length_cm = mean(corolla_length_cm, na.rm = TRUE),
          std_dev_corolla_length = sd(corolla_length_cm, na.rm = TRUE),
          mean_corolla_width_throat_cm = mean(corolla_width_throat_cm, na.rm = TRUE),
          std_dev_corolla_width_throat = sd(corolla_width_throat_cm, na.rm = TRUE),
-         mean_length_width_ratio = mean_corolla_length_cm/mean_corolla_width_throat_cm) %>% 
-  select(species, mean_corolla_length_cm, std_dev_corolla_length, mean_corolla_width_throat_cm, std_dev_corolla_width_throat, mean_length_width_ratio)
-flower_sizes_calculated
+         mean_length_width_ratio = mean_corolla_length_cm/mean_corolla_width_throat_cm)
+flower_sizes_calculated #summary of sizes for each species
 ```
-```{r}
-#Check to see if this is the correct number of species :) 
-n_distinct(flower_sizes_original$species)
+```{r message=FALSE, warning=FALSE, comment=NA}
+n_distinct(flower_sizes_calculated$species)
 ```
-
-#There are 397 species in our data. Object `flower_sizes_calculated` should be used for the merge. 
-
+There are 396 species in our data. Object `flower_sizes_calculated` should be used for the merge. 
 
 #Pollinator and Color Data
-```{r}
+With our second data set, we'll observe the different colors and pollinators associated with each species. Note: this data is not yet clean.
+```{r message=FALSE, warning=FALSE, comment=NA}
 colors_and_pollinators <- colors_and_pollinators_original %>% 
-  rename(color_source="source", pollinator_source="source_1") %>% 
-  filter(color != "NA", pollinator != "NA")
-names(colors_and_pollinators)
+  rename(color_source="source", pollinator_source="source_1") #%>% 
+  #filter(color != "NA" & pollinator != "NA")
+colors_and_pollinators
 ```
-
-```{r}
+```{r message=FALSE, warning=FALSE, comment=NA}
 glimpse(colors_and_pollinators)
+```
+```{r message=FALSE, warning=FALSE, comment=NA}
 n_distinct(colors_and_pollinators$species)
+```
+```{r message=FALSE, warning=FALSE, comment=NA}
 miss_var_summary(colors_and_pollinators)
 ```
-#There are 429 distinct species in the`colors_and_pollinators` data and 397 in the `flower_size` data. We will use inner_join so that we are only working with species that have data in both data sets.
+There are 429 distinct species in the `colors_and_pollinators` data and 397 in the `flower_size` data. We will use inner_join so that we are only working with species that have data in both data sets.
 
 #The Merge
-```{r}
+```{r message=FALSE, warning=FALSE, comment=NA}
 phlox_merge <- inner_join(flower_sizes_calculated, colors_and_pollinators, by = "species")
 phlox_merge
 ```
-#After joining, we have 293 species that we are working with. 
+After joining, we have 292 species that we are working with. 
 
-#It's Plotty Time!
+#Tidying Up the Data
+Now that we have our two data sets merged, we can now tidy our data so that it fits the 3 conventions of the tidyverse: (1) each variable has its own column, (2) each observation has its own row, (3) each value has its own cell.
+
+We'll start off by giving each value its own cell and ensuring all observations are consistent by converting any plural observations to their singular forms.
 ```{r}
-phlox_merge %>% 
-  count(color)
-```
-```{r}
-phlox_merge_test_color <- phlox_merge %>%
-  mutate_all(funs(str_replace(., " or ", ", "))) %>%
-  mutate_all(funs(str_replace(., " and ", ", "))) %>%
+phlox_clean_up1 <- phlox_merge %>%
+  mutate_all(funs(str_replace(., " or", ", "))) %>% #mutations 1-4 are used to ensure all cells with more than one value are using the same separators
+  mutate_all(funs(str_replace(., " and", ", "))) %>%
   mutate_all(funs(str_replace(., "/", ", "))) %>%
-  mutate_all(funs(str_replace(., " to ", ", "))) %>%
-  separate(color, into=c("color_1", "color_2", "color_3", "color_4"), sep=", ") %>%
-  mutate_all(funs(str_replace(., " primary,", ", "))) %>%
+  mutate_all(funs(str_replace(., " to", ", "))) %>%
+  separate(color, into=c("color_1", "color_2", "color_3", "color_4"), sep=", ") %>% #there are a maximum of 4 different colors in one cell under the color column, so we will separate the original color column into 4 different rows to give each value its own cell
+  mutate_all(funs(str_replace(., " primary,", ", "))) %>% #mutations 5-6 serve to remove extraneous verbiage that won't be relevant to our analysis
   mutate_all(funs(str_replace(., " secondary", ""))) %>%
-  mutate_all(funs(str_replace(., "bees", "bee"))) %>%
+  mutate_all(funs(str_replace(., "bees", "bee"))) %>% #mutations 7-14 serve to make our data consistent and turn any plural pollinators into singular
   mutate_all(funs(str_replace(., "butterflies", "butterfly"))) %>%
+  mutate_all(funs(str_replace(., " butterfly", "butterfly"))) %>%
   mutate_all(funs(str_replace(., "beeflies", "bee-fly"))) %>%
   mutate_all(funs(str_replace(., "beefly", "bee-fly"))) %>%
+  mutate_all(funs(str_replace(., "  bee-fly", "bee-fly"))) %>%
+  mutate_all(funs(str_replace(., " bee-fly", "bee-fly"))) %>%
   mutate_all(funs(str_replace(., "beetles", "beetle"))) %>% 
+  mutate_all(funs(str_replace(., " beetles", "beetle"))) %>%
   mutate_all(funs(str_replace(., "hawkmoths", "hawkmoth"))) %>% 
+  mutate_all(funs(str_replace(., "  hawkmoth", "hawkmoth"))) %>%
+  mutate_all(funs(str_replace(., "  bee", "bee"))) %>%
   mutate_all(funs(str_replace(., "flies", "fly"))) %>% 
+  mutate_all(funs(str_replace(., " fly", "fly"))) %>%
   mutate_all(funs(str_replace(., "hummingbirds", "hummingbird"))) %>% 
-  separate(pollinator, into=c("pollinator_1", "pollinator_2", "pollinator_3"), sep=",")
-phlox_merge_test_color
+  mutate_all(funs(str_replace(., " hummingbird", "hummingbird"))) %>%
+  separate(pollinator, into=c("pollinator_1", "pollinator_2", "pollinator_3"), sep=",") #there are a maximum of 3 different pollinators in one cell under the pollinator column, so we will separate the original pollinator column into 3 different rows to give each value its own cell
+phlox_clean_up1
 ```
 
+We'll then do a more thorough clean-up under the color columns, making sure that all data is consistent here, as well.
 ```{r}
-phlox_merge_test_color2 <- phlox_merge_test_color %>%
+phlox_tidy <- phlox_clean_up1 %>%
   mutate_all(funs(str_replace(., "light pink", "pink"))) %>%
   mutate_all(funs(str_replace(., "pale pink", "pink"))) %>%
+  mutate_all(funs(str_replace(., "pink,", "pink"))) %>%
   mutate_all(funs(str_replace(., "yellow throat", "yellow"))) %>%
   mutate_all(funs(str_replace(., "lavender", "blue_purple"))) %>%
   mutate_all(funs(str_replace(., "blue-violet", "blue_purple"))) %>%
@@ -135,57 +153,63 @@ phlox_merge_test_color2 <- phlox_merge_test_color %>%
   mutate_all(funs(str_replace(., "blue", "blue_purple"))) %>% 
   mutate_all(funs(str_replace(., "blue_purple_blue_purple", "blue_purple"))) %>%
   mutate_all(funs(str_replace(., "blue_purple_purple", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., "bluish-white", "bluish_white"))) %>%
+  mutate_all(funs(str_replace(., "greenish-yellow", "greenish_yellow"))) %>%
+  mutate_all(funs(str_replace(., " blue_purple", "blue_purple"))) %>%
+  mutate_all(funs(str_replace(., " pink", "pink"))) %>%
+  mutate_all(funs(str_replace(., " white", "white"))) %>%
   mutate_all(funs(str_replace(., " [(]both[)]", "")))
-phlox_merge_test_color2
+phlox_tidy
 ```
-
+The pivot_longer() command will condense our dataframe so that, while still giving each value its own cell, all colors will be under a single column and all pollinators will be under its own single column. The object `phlox_long` is what we will now use for our analyses.
 ```{r}
-n_distinct(phlox_merge_test_color$species)
-```
-
-```{r}
-phlox_long <- phlox_merge_test_color2 %>% 
+phlox_long <- phlox_tidy %>% 
   pivot_longer(color_1:color_4,
                names_to = "color_number",
                values_to = "color") %>% 
   pivot_longer(pollinator_1:pollinator_3,
                names_to = "pollinator_number",
                values_to = "pollinator") %>%
-  select(-color_number, -pollinator_number) %>%
-  filter(color!="NA" & pollinator!="NA")
+  select(-color_number, -pollinator_number)
 phlox_long
 ```
-Adding genus col data:
-```{r}
-genus_name <-phlox_long$genus <- word(phlox_long$species, 1)
-phlox_long %>% 
-  tabyl(genus)
-#Dataframe1$COL2 <- word(Dataframe2$COL1, 1)
-```
 
-
-
+#It's Plotty Time!
+##Color Analysis
 ```{r}
 phlox_long %>% 
-  ggplot(aes(x= color))+
-  geom_bar()
+  count(color)
 ```
+
 ```{r}
 phlox_long %>%
-  count(species, color) %>%
-  ggplot(aes(x= color, fill = color))+
-  geom_bar()+
-  theme(axis.text.x = element_text(angle = 60, hjust = 1))+
-  labs(title = "Color Count",
-       x = "Color",
-       y = "Count") +
-  theme(plot.title = element_text(size = rel(1.5), hjust = 1))
+  filter(color!="NA") %>%
+  ggplot(aes(x=color, fill=color)) +
+  geom_bar() +
+  scale_fill_manual(values = c("blue_purple" = "slateblue",
+                               "bluish_white" = "azure2",
+                               "green" = "green",
+                               "greenish_yellow" = "greenyellow",
+                               "pink" = "pink",
+                               "red" = "red",
+                               "white" = "white",
+                               "yellow" = "yellow")) +
+  theme_dark() +
+  theme(panel.background = element_rect(fill = "#2D2D2D"),
+        axis.text.x = element_text(angle = 60, hjust = 1),
+        plot.title=element_text(face="bold", hjust=0.5)) +
+  labs(title = "Color Count", x = "Color", y = "Count")
 ```
-
+##Pollinator Analysis
 ```{r}
 phlox_long %>% 
-  count(species, pollinator) %>%
-  ggplot(aes(x=pollinator))+
+  filter(pollinator!="" & pollinator!="NA") %>%
+  count(pollinator) #ISSUE: some pollinators appearing twice with different counts, spacing is not an issue so idk what is
+```
+```{r}
+phlox_long %>% 
+  filter(pollinator!="NA" & pollinator!="") %>%
+  ggplot(aes(x=pollinator, fill=pollinator))+
   geom_bar()+
   coord_flip()+
   labs(title = "Pollinator Count",
@@ -194,6 +218,7 @@ phlox_long %>%
   theme(plot.title = element_text(size = rel(1.5), hjust = 1))
 
 ```
+
 ```{r}
 phlox_long %>% 
   filter(pollinator == "bee"| pollinator == "bee-fly" | pollinator == "hummingbird" | pollinator == "hawkmoth" | pollinator == "fly" | pollinator == "butterfly" | pollinator == "beetle" | pollinator == "bat" | pollinator == "autogamous") %>% 
@@ -206,6 +231,13 @@ phlox_long %>%
        y = "Count") +
   theme(plot.title = element_text(size = rel(1.5), hjust = 1))
 
+```
+Adding genus col data:
+```{r}
+genus_name <-phlox_long$genus <- word(phlox_long$species, 1)
+phlox_long %>% 
+  tabyl(genus)
+#Dataframe1$COL2 <- word(Dataframe2$COL1, 1)
 ```
 App Attempt:
 ```{r}
