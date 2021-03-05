@@ -114,8 +114,9 @@ phlox_clean_up1 <- phlox_merge %>%
   separate(color, into=c("color_1", "color_2", "color_3", "color_4"), sep=", ") %>% #there are a maximum of 4 different colors in one cell under the color column, so we will separate the original color column into 4 different rows to give each value its own cell
   mutate_all(funs(str_replace(., " primary,", ", "))) %>% #mutations 5-6 serve to remove extraneous verbiage that won't be relevant to our analysis
   mutate_all(funs(str_replace(., " secondary", ""))) %>%
-  mutate_all(funs(str_replace(., "bees", "bee"))) %>% #mutations 7-14 serve to make our data consistent and turn any plural pollinators into singular
+  mutate_all(funs(str_replace(., "bees", "bee"))) %>% #mutations 7-26 serve to make our data consistent and turn any plural pollinators into singular
   mutate_all(funs(str_replace(., "butterflies", "butterfly"))) %>%
+  mutate_all(funs(str_replace(., " butterfly", "butterfly"))) %>% #keep repeated mutations, otherwise it will count butterfly twice in n_distinct()
   mutate_all(funs(str_replace(., " butterfly", "butterfly"))) %>%
   mutate_all(funs(str_replace(., "beeflies", "bee-fly"))) %>%
   mutate_all(funs(str_replace(., "beefly", "bee-fly"))) %>%
@@ -124,11 +125,14 @@ phlox_clean_up1 <- phlox_merge %>%
   mutate_all(funs(str_replace(., "beetles", "beetle"))) %>% 
   mutate_all(funs(str_replace(., " beetles", "beetle"))) %>%
   mutate_all(funs(str_replace(., "hawkmoths", "hawkmoth"))) %>% 
-  mutate_all(funs(str_replace(., "  hawkmoth", "hawkmoth"))) %>%
+  mutate_all(funs(str_replace(., "  hawkmoth", "hawkmoth"))) %>% #keep repeated mutations, otherwise it will count hawkmoth twice in n_distinct()
+  mutate_all(funs(str_replace(., " hawkmoth", "hawkmoth"))) %>%
   mutate_all(funs(str_replace(., "  bee", "bee"))) %>%
   mutate_all(funs(str_replace(., "flies", "fly"))) %>% 
+  mutate_all(funs(str_replace(., " fly", "fly"))) %>% #keep repeated mutations, otherwise it will count fly twice in n_distinct()
   mutate_all(funs(str_replace(., " fly", "fly"))) %>%
   mutate_all(funs(str_replace(., "hummingbirds", "hummingbird"))) %>% 
+  mutate_all(funs(str_replace(., " hummingbird", "hummingbird"))) %>% #keep repeated mutations, otherwise it will count hummingbird twice in n_distinct()
   mutate_all(funs(str_replace(., " hummingbird", "hummingbird"))) %>%
   separate(pollinator, into=c("pollinator_1", "pollinator_2", "pollinator_3"), sep=",") #there are a maximum of 3 different pollinators in one cell under the pollinator column, so we will separate the original pollinator column into 3 different rows to give each value its own cell
 phlox_clean_up1
@@ -207,12 +211,7 @@ phlox_long %>%
 ```{r}
 phlox_long %>% 
   filter(pollinator!="" & pollinator!="NA") %>%
-  #count(pollinator) #ISSUE: some pollinators appearing twice with different counts, spacing is not an issue so idk what is
-  group_by(pollinator) %>%
-  summarise(n=n()) #ran a group_by/summarise function, and still got the same issue
-```
-```{r}
-view(phlox_long)
+  count(pollinator)
 ```
 
 ```{r}
@@ -225,22 +224,9 @@ phlox_long %>%
        x = "Pollinator",
        y = "Count") +
   theme(plot.title = element_text(size = rel(1.5), hjust = 1))
-
+#Feel free to play with aesthetics
 ```
 
-```{r}
-phlox_long %>% 
-  filter(pollinator == "bee"| pollinator == "bee-fly" | pollinator == "hummingbird" | pollinator == "hawkmoth" | pollinator == "fly" | pollinator == "butterfly" | pollinator == "beetle" | pollinator == "bat" | pollinator == "autogamous") %>% 
-  count(species, pollinator) %>%
-  ggplot(aes(x=pollinator, fill=pollinator))+
-  geom_bar()+
-  coord_flip()+
-  labs(title = "Pollinator Count",
-       x = "Pollinator",
-       y = "Count") +
-  theme(plot.title = element_text(size = rel(1.5), hjust = 1))
-
-```
 Adding genus col data:
 ```{r}
 genus_name <-phlox_long$genus <- word(phlox_long$species, 1)
