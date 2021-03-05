@@ -207,7 +207,9 @@ phlox_long %>%
 ```{r}
 phlox_long %>% 
   filter(pollinator!="" & pollinator!="NA") %>%
-  count(pollinator) #ISSUE: some pollinators appearing twice with different counts, spacing is not an issue so idk what is
+  #count(pollinator) #ISSUE: some pollinators appearing twice with different counts, spacing is not an issue so idk what is
+  group_by(pollinator) %>%
+  summarise(n=n()) #ran a group_by/summarise function, and still got the same issue
 ```
 ```{r}
 view(phlox_long)
