@@ -181,6 +181,13 @@ phlox_long <- phlox_tidy %>%
 phlox_long
 ```
 
+Adding genus col data:
+```{r}
+genus_name <-phlox_long$genus <- word(phlox_long$species, 1)
+phlox_long %>% 
+  tabyl(genus)
+#Dataframe1$COL2 <- word(Dataframe2$COL1, 1)
+```
 #It's Plotty Time!
 ##Color Analysis
 ```{r}
@@ -189,6 +196,7 @@ phlox_long %>%
 ```
 
 ```{r}
+#played with the aesthetics a little to create the plot below this - they are the same data though, one needs to be deleted later
 phlox_long %>%
   filter(color!="NA") %>%
   ggplot(aes(x=color, fill=color)) +
@@ -207,6 +215,26 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=1)) +
   labs(title = "Color Count", x = "Color", y = "Count")
 ```
+```{r}
+phlox_long %>%
+  filter(color!="NA") %>%
+  ggplot(aes(x=color, fill=color)) +
+  geom_bar(color = "black", show.legend = FALSE) + #removed legend because it just repeats what the x-axis says 
+  scale_fill_manual(values = c("blue_purple" = "slateblue",
+                               "bluish_white" = "azure2",
+                               "green" = "green",
+                               "greenish_yellow" = "greenyellow",
+                               "pink" = "pink",
+                               "red" = "brown2",
+                               "white" = "white",
+                               "yellow" = "yellow")) +
+  labs(title = "Color Count", x = "Color", y = "Count")+
+  scale_color_grey() + theme_classic()+
+  theme(plot.title = element_text(size = rel(1.5), hjust = .5))+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
+```
+
 ##Pollinator Analysis
 ```{r}
 phlox_long %>% 
@@ -218,59 +246,119 @@ phlox_long %>%
 phlox_long %>% 
   filter(pollinator!="NA" & pollinator!="") %>%
   ggplot(aes(x=pollinator, fill=pollinator))+
-  geom_bar()+
-  coord_flip()+
+  geom_bar(color = "black", show.legend = FALSE)+
+  scale_color_grey() + theme_classic()+
+  scale_fill_manual(values = c("hummingbird" = "slateblue",
+                               "hawkmoth" = "azure2",
+                               "fly" = "chartreuse2",
+                               "butterfly" = "pink",
+                               "beetle" = "greenyellow",
+                               "bee-fly" = "maroon",
+                               "bee" = "yellow",
+                               "bat" = "midnightblue",
+                               "autogamous" = "mediumorchid1")) +
   labs(title = "Pollinator Count",
        x = "Pollinator",
        y = "Count") +
-  theme(plot.title = element_text(size = rel(1.5), hjust = 1))
+  theme(plot.title = element_text(size = rel(1.5), hjust = .5))+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 #Feel free to play with aesthetics
 ```
-
-Adding genus col data:
-```{r}
-genus_name <-phlox_long$genus <- word(phlox_long$species, 1)
-phlox_long %>% 
-  tabyl(genus)
-#Dataframe1$COL2 <- word(Dataframe2$COL1, 1)
-```
-App Attempt:
+Looking at Pollinator With Our Continuous Variables Using a Box Plot:
 ```{r}
 phlox_long %>% 
-  summarize(max_c_length = max(mean_corolla_length_cm),
-            max_c_width = max(mean_corolla_width_throat_cm),
-            max_ratio = max(mean_length_width_ratio))
-ui <- dashboardPage(
-dashboardHeader(title = "Corolla by Genus"),
-  dashboardSidebar(disable = T),
-  dashboardBody(
-  fluidRow(
-  box(title = "Plot Options", width = 3,
-  selectInput("x", "Select Measurement", choices = c("mean_corolla_length_cm", "mean_corolla_width_throat_cm", "mean_length_width_ratio"), 
-              selected = "Acanthogilia"),
-  hr(),
-      helpText("HELP TEXT OR NO?")
-  ),
-  box(
-  plotOutput("plot", width = "600px", height = "500px")
-  ) 
-  )
-  )
-)
-
-server <- function(input, output, session) { 
-  output$plot <- renderPlot({
-  phlox_long %>% 
-  ggplot(aes_string(x = input$x, y="mean_length_width_ratio", fill="species"))+
-  geom_col()+
-  theme_minimal(base_size = 18)+
-      theme(axis.text.x = element_text(angle = 60, hjust = 1))+
-      labs(title = "Genus measurments",x=NULL,y="Number of Species")
-  })
- session$onSessionEnded(stopApp)
-  }
-shinyApp(ui, server)
+  filter(pollinator!="NA" & pollinator!="") %>%
+  ggplot(aes(x=genus, y=mean_corolla_length_cm))+
+  geom_boxplot()+
+  scale_color_grey() + theme_classic()+
+  labs(title = "Pollinator by Corolla Length",
+       x = "Genus",
+       y = "Corolla Length") +
+  theme(plot.title = element_text(size = rel(1.5), hjust = .5))+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
+```{r}
+phlox_long %>% 
+  filter(pollinator!="NA" & pollinator!="") %>%
+  ggplot(aes(x=genus, y=mean_corolla_width_throat_cm))+
+  geom_boxplot()+
+  scale_color_grey() + theme_classic()+
+  labs(title = "Pollinator by Corolla Width",
+       x = "Genus",
+       y = "Corolla Width") +
+  theme(plot.title = element_text(size = rel(1.5), hjust = .5))+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
+```
+```{r}
+phlox_long %>% 
+  filter(pollinator!="NA" & pollinator!="") %>%
+  ggplot(aes(x=genus, y=mean_length_width_ratio))+
+  geom_boxplot()+
+  scale_color_grey() + theme_classic()+
+  labs(title = "Genus Corolla Length:Width",
+       x = "Genus",
+       y = "Corolla Length:Width") +
+  theme(plot.title = element_text(size = rel(1.5), hjust = .5))+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
+```
+Relating Pollinator to Color: 
+```{r}
+phlox_long %>% 
+  filter(pollinator!="NA" & pollinator!="") %>%
+  filter(color!="NA") %>%
+  ggplot(aes(x = pollinator, fill = color)) + geom_bar(position = position_fill(), color = "black") +
+  scale_color_grey() + theme_classic()+
+  scale_fill_manual(values = c("blue_purple" = "slateblue",
+                               "bluish_white" = "cadetblue1",
+                               "green" = "green",
+                               "greenish_yellow" = "greenyellow",
+                               "pink" = "pink",
+                               "red" = "brown2",
+                               "white" = "white",
+                               "yellow" = "yellow")) +
+  labs(title = "Pollinator's Preferred Flower Color",
+       x = "Pollinator",
+       fill = "color")+
+   theme(plot.title = element_text(size = rel(1.5), hjust = .5))+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
+```
+We can start to see some trends in phlox data - we can see that phlox pollinators like hummingbird are overwhelmingly attracted to red flowers. 
+
+Looking at Genus in Phlox Family:
+```{r}
+phlox_long %>% 
+  count(genus)
+```
+```{r}
+phlox_long %>% 
+  filter(pollinator!="NA" & pollinator!="") %>%
+  ggplot(aes(x = genus, fill = pollinator)) + geom_bar(position = position_fill(), color = "black") +
+  scale_color_grey() + theme_classic()+
+  scale_fill_manual(values = c("hummingbird" = "slateblue",
+                               "hawkmoth" = "azure2",
+                               "fly" = "chartreuse2",
+                               "butterfly" = "pink",
+                               "beetle" = "greenyellow",
+                               "bee-fly" = "maroon",
+                               "bee" = "yellow",
+                               "bat" = "midnightblue",
+                               "autogamous" = "mediumorchid1")) +
+  labs(title = "Genus Pollinators",
+       x = "Phylox Genus",
+       fill = "color")+
+   theme(plot.title = element_text(size = rel(1.5), hjust = .5))+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
+```
+
+
+
+App Looking at Continuous Variables in the Plot:
 ```{r}
 ui <- fluidPage(
     selectInput("x", "Select X Variable", choices = c("mean_corolla_length_cm", "mean_corolla_width_throat_cm", "mean_length_width_ratio"),
@@ -284,6 +372,7 @@ server <- function(input, output) {
   output$plot <- renderPlot({
     ggplot(phlox_long, aes_string(x = input$x, y = input$y, color="genus")) + 
       geom_point() + 
+      scale_color_grey() + theme_classic()+
       theme_light(base_size = 18)+
       scale_x_discrete(breaks = seq(0, 10, 1))+
       scale_y_discrete(breaks = seq(0, 10, 1))
