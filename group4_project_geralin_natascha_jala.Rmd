@@ -116,7 +116,7 @@ After joining the data sheets, we have 145 species that we are working with.
 #Tidying Up the Data
 Now that we have our two data sets merged, we can now tidy our data so that it fits the 3 conventions of the tidyverse: (1) each variable has its own column, (2) each observation has its own row, (3) each value has its own cell.
 
-We'll start off by giving each value its own cell and ensuring all observations are consistent by converting any plural observations to their singular forms. 
+##We'll start off by giving each value its own cell and ensuring all observations are consistent by converting any plural observations to their singular forms. 
 ```{r}
 phlox_clean_up1 <- phlox_merge %>%
   mutate_at("color", funs(str_replace(., " or", ", "))) %>% #mutations 1-4 are used to ensure all cells with more than one value are using the same separators, a comma
@@ -151,7 +151,8 @@ phlox_clean_up1 <- phlox_merge %>%
 phlox_clean_up1
 ```
 
-We'll then do a more thorough clean-up under the color columns, making sure that all data is consistent here, as well. We looked to the paper for this study to make decisions on how to group/standardize recorded colors. We settled on the following categories which can then be correlated/attributed to pigments: blue_purple, pink, red (anthocyanins), yellow (carotenoids), green (chloroplasts), and white (lack of pigment). We also retained "bluish_white" and "greenish_yellow" as separate because they crossed over between two different pigment groups. 
+##We'll then do a more thorough clean-up under the color columns, making sure that all data is consistent here, as well. 
+We looked to the paper for this study to make decisions on how to group/standardize recorded colors. We settled on the following categories which can then be correlated/attributed to pigments: blue_purple, pink, red (anthocyanins), yellow (carotenoids), green (chloroplasts), and white (lack of pigment). We also retained "bluish_white" and "greenish_yellow" as separate because they crossed over between two different pigment groups. 
 
 ```{r}
 phlox_tidy <- phlox_clean_up1 %>%
@@ -183,7 +184,8 @@ phlox_tidy <- phlox_clean_up1 %>%
 phlox_tidy
 ```
 
-The pivot_longer() command will condense our dataframe so that, while still giving each value its own cell, all colors will be under a single column and all pollinators will be under its own single column, as opposed to separated out into colors1-4 and, and pollinators 1-3. We removed the columns "color_number" and "pollinator_number" as they are unncecessary. The object `phlox_long` is what we will now use for our analyses.
+#The pivot_longer() command will condense our dataframe so that, while still giving each value its own cell, all colors will be under a single column and all pollinators will be under its own single column, as opposed to separated out into colors1-4 and, and pollinators 1-3. 
+We removed the columns "color_number" and "pollinator_number" as they are unnecessary. The object `phlox_long` is what we will now use for our analyses.
 ```{r}
 phlox_long <- phlox_tidy %>% 
   pivot_longer(color_1:color_4,
@@ -202,7 +204,7 @@ phlox_long
 n_distinct(phlox_long$species) #Checking to see that we still have 145 distinct species that we're looking at. 
 ```
 
-Adding genus column data:
+#Adding genus column:
 ```{r}
 genus_name <- phlox_long$genus <- word(phlox_long$species, 1)
 phlox_long %>% 
@@ -211,7 +213,7 @@ phlox_long %>%
   count(genus)
 #Dataframe1$COL2 <- word(Dataframe2$COL1, 1)
 ```
-#The problem that I'm seeing here is that now R thinks that every repeated instance of a species in a genus counts as a distinct instance of that genus! How do we get it to reflect the appropriate counts/percentages of each genus? i.e. I want a count of each genus, under the condition that it's distinguishing between distinct species, and not just adding up all the repeats of each species.
+#PROBLEM: What I'm seeing here is that now R thinks that every repeated instance of a species in a genus counts as a distinct instance of that genus! How do we get it to reflect the appropriate counts/percentages of each genus? i.e. I want a count of each genus, under the condition that it's distinguishing between distinct species, and not just adding up all the repeats of each species.
 
 
 #It's Plotty Time!
@@ -222,7 +224,7 @@ phlox_long %>%
   count(color)
 ```
 
-##How do we get the colors and pollinators to be counted only once for distinct species? 
+## PROBLEM: How do we get the colors and pollinators to be counted only once for distinct species?? 
 ```{r}
 phlox_long %>%
   filter(color!="NA") %>%
