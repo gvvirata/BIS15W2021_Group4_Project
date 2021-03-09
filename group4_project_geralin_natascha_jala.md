@@ -2333,6 +2333,37 @@ shinyApp(ui, server)
 
 `<div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div>`{=html}
 
+```r
+ui <- fluidPage(
+    selectInput("x", "Select Variable", choices = c("genus", "pollinator", "color"),
+              selected = "mean_corolla_length_cm"),
+    selectInput("y", "Select Y Variable", choices = c("mean_corolla_length_cm", "mean_corolla_width_throat_cm", "mean_length_width_ratio"),
+              selected = "mean_corolla_width_throat_cm"),
+  plotOutput("plot", width = "800px", height = "400px")
+)
+
+server <- function(input, output, session) {
+  output$plot <- renderPlot({
+    ggplot(phlox_long, aes_string(x = input$x, y = input$y)) + 
+      scale_fill_manual(values = palette) +
+  geom_boxplot(show.legend = FALSE)+
+  labs(title = "Corolla Length to Width Ratios by Pollinator",
+       x = "Pollinator",
+       y = "Corolla Length:Width")+
+  theme_gray(base_family = "Palatino")+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        axis.title.x = element_text(face = "bold"),
+        axis.title.y = element_text(face = "bold"),
+        plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
+  })
+  
+  session$onSessionEnded(stopApp)
+} 
+
+shinyApp(ui, server)
+```
+
+`<div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div>`{=html}
 
 
 choices = c("Acanthogilia", "Aliciella", "Allophyllum", "Bonplandia", "Cantua", "Cobaea", "Collomia", "Dayia", "Eriastrum", "Fouquieria", "Gilia", "Giliastrum", "Gymnosteris", "Ipomopsis", "Langloisia", "Leptosiphon", "Linanthus", "Loeselia", "Loeseliastrum", "Microgilia", "Microsteris", "Navarretia", "Phlox", "Polemonium", "Saltugilia")
