@@ -231,6 +231,11 @@ phlox_long %>%
   count(genus)
 #Dataframe1$COL2 <- word(Dataframe2$COL1, 1)
 ```
+```{r}
+phlox_long <- phlox_long %>% 
+  select(species, mean_corolla_length_cm, mean_corolla_width_throat_cm, mean_length_width_ratio, color, pollinator, genus, std_dev_corolla_length, std_dev_corolla_width_throat, color_source, pollinator_source)
+```
+
 
 #It's Plotty Time!
 ```{r}
@@ -475,23 +480,26 @@ ui <- fluidPage(
               selected = "mean_corolla_length_cm"),
     selectInput("y", "Select Y Variable", choices = c("mean_corolla_length_cm", "mean_corolla_width_throat_cm", "mean_length_width_ratio"),
               selected = "mean_corolla_width_throat_cm"),
-  plotOutput("plot", width = "1200px", height = "400px")
+  plotOutput("plot", width = "800px", height = "400px")
 )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   output$plot <- renderPlot({
     ggplot(phlox_long, aes_string(x = input$x, y = input$y, color="genus")) + 
       geom_point() + 
-      scale_color_grey() + theme_classic()+
-      theme_light(base_size = 18)+
-      scale_x_discrete(breaks = seq(0, 10, 1))+
-      scale_y_discrete(breaks = seq(0, 10, 1))
+      theme_classic()+
+      theme_light(base_size = 18)
   })
+  
   session$onSessionEnded(stopApp)
-} #need to play with aesthetics so that legend has more distinct colors
+} 
 
 shinyApp(ui, server)
 ```
+```{r}
+
+```
+
 
 choices = c("Acanthogilia", "Aliciella", "Allophyllum", "Bonplandia", "Cantua", "Cobaea", "Collomia", "Dayia", "Eriastrum", "Fouquieria", "Gilia", "Giliastrum", "Gymnosteris", "Ipomopsis", "Langloisia", "Leptosiphon", "Linanthus", "Loeselia", "Loeseliastrum", "Microgilia", "Microsteris", "Navarretia", "Phlox", "Polemonium", "Saltugilia")
 
