@@ -510,9 +510,13 @@ server <- function(input, output, session) {
     ggplot(phlox_long, aes_string(x = input$x, y = input$y)) + 
       scale_fill_manual(values = palette) +
   geom_boxplot(show.legend = FALSE)+
-  labs(title = "Corolla Length to Width Ratios by Pollinator",
-       x = "Pollinator",
-       y = "Corolla Length:Width")+
+      xlab(paste(input$x,collapse=""))+
+      ylab(paste(input$y,collapse=""))+
+      
+  labs(title = "Corolla Measurements"#,
+       #x = "Genus"#,
+       #y = "Corolla Length:Width"
+       )+
   theme_gray(base_family = "Palatino")+
   theme(axis.text.x = element_text(angle = 60, hjust = 1),
         axis.title.x = element_text(face = "bold"),
