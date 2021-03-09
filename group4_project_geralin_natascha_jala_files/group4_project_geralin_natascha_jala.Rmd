@@ -237,19 +237,29 @@ phlox_long <- phlox_long %>%
 ```
 
 
-#It's Plotty Time!
+#It's Plotty Time! Analyses:
 ```{r}
 palette <- paletteer_d("rcartocolor::Safe")
 palette
 ```
 
+##Species with min and max length:width ratios
+```{r}
+max(phlox_long$mean_length_width_ratio)
+phlox_long %>% 
+  filter(mean_length_width_ratio == 9.99618611746758)
+min(phlox_long$mean_length_width_ratio)
+phlox_long %>% 
+  filter(mean_length_width_ratio == 1.11005025125628)
+```
 
 ##Color Analysis
 ```{r}
 phlox_long %>% 
   group_by(color) %>% 
   distinct(species) %>% 
-  count(color)
+  count(color) %>% 
+  arrange(desc(n))
 ```
 
 ```{r}
@@ -258,6 +268,7 @@ phlox_long %>%
   distinct(species) %>% 
   ggplot(aes(x=color, fill=color)) +
   geom_bar(color = "black", show.legend = FALSE) + #removed legend because it just repeats what the x-axis says 
+  scale_x_discrete(limits=c("blue_purple","white","pink","red","yellow","green", "bluish_white", "greenish_yellow"))+
   scale_fill_manual(values = c("blue_purple" = "slateblue",
                                "bluish_white" = "cadetblue1",
                                "green" = "olivedrab",
@@ -279,7 +290,8 @@ phlox_long %>%
 phlox_long %>% 
   group_by(pollinator) %>% 
   distinct(species) %>% 
-  count(pollinator)
+  count(pollinator) %>% 
+  arrange(desc(n))
 ```
 
 ```{r}
@@ -288,6 +300,7 @@ phlox_long %>%
   distinct(species) %>% 
   ggplot(aes(x= pollinator, fill=pollinator))+
   geom_bar(color = "black", show.legend = FALSE)+
+  scale_x_discrete(limits=c("autogamous","bee","bee-fly","butterfly","hummingbird","hawkmoth", "fly", "bat", "beetle"))+
   scale_fill_manual(values = palette) +
   labs(title = "Pollinators of Phlox",
        x = "Pollinator",
@@ -510,3 +523,5 @@ shinyApp(ui, server)
 
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
