@@ -311,6 +311,7 @@ phlox_long$mean_corolla_length_cm <- as.numeric(phlox_long$mean_corolla_length_c
 is.numeric(phlox_long$mean_corolla_length_cm)
 ```
 
+
 ```{r}
 phlox_long %>% 
   ggplot(aes(x=genus, y=mean_corolla_length_cm))+
