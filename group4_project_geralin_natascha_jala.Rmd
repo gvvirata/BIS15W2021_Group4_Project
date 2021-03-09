@@ -473,29 +473,6 @@ phlox_long %>%
 ```
 #It should be noted, that some genera are only represented by one species so we can't draw any definite conclusions about some genera only being pollinated by one type of pollinator. 
 
-App Looking at Continuous Variables in the Plot:
-```{r}
-ui <- fluidPage(
-    selectInput("x", "Select X Variable", choices = c("mean_corolla_length_cm", "mean_corolla_width_throat_cm", "mean_length_width_ratio"),
-              selected = "mean_corolla_length_cm"),
-    selectInput("y", "Select Y Variable", choices = c("mean_corolla_length_cm", "mean_corolla_width_throat_cm", "mean_length_width_ratio"),
-              selected = "mean_corolla_width_throat_cm"),
-  plotOutput("plot", width = "800px", height = "400px")
-)
-
-server <- function(input, output, session) {
-  output$plot <- renderPlot({
-    ggplot(phlox_long, aes_string(x = input$x, y = input$y, color="genus")) + 
-      geom_point() + 
-      theme_classic()+
-      theme_light(base_size = 18)
-  })
-  
-  session$onSessionEnded(stopApp)
-} 
-
-shinyApp(ui, server)
-```
 ```{r}
 ui <- fluidPage(
     selectInput("x", "Select Variable", choices = c("genus", "pollinator", "color"),
@@ -529,9 +506,6 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 ```
-
-
-choices = c("Acanthogilia", "Aliciella", "Allophyllum", "Bonplandia", "Cantua", "Cobaea", "Collomia", "Dayia", "Eriastrum", "Fouquieria", "Gilia", "Giliastrum", "Gymnosteris", "Ipomopsis", "Langloisia", "Leptosiphon", "Linanthus", "Loeselia", "Loeseliastrum", "Microgilia", "Microsteris", "Navarretia", "Phlox", "Polemonium", "Saltugilia")
 
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
