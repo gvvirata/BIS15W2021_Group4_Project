@@ -10,110 +10,14 @@ output:
 
 ```r
 if (!require("tidyverse")) install.packages('tidyverse')
-```
-
-```
-## Loading required package: tidyverse
-```
-
-```
-## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
-```
-
-```
-## v ggplot2 3.3.3     v purrr   0.3.4
-## v tibble  3.0.6     v dplyr   1.0.4
-## v tidyr   1.1.2     v stringr 1.4.0
-## v readr   1.4.0     v forcats 0.5.1
-```
-
-```
-## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-```
-
-```r
 if (!require("RColorBrewer")) install.packages('RColorBrewer')
-```
-
-```
-## Loading required package: RColorBrewer
-```
-
-```r
 if (!require("paletteer")) install.packages('paletteer')
-```
-
-```
-## Loading required package: paletteer
-```
-
-```r
 if (!require("janitor")) install.packages('janitor')
-```
-
-```
-## Loading required package: janitor
-```
-
-```
-## 
-## Attaching package: 'janitor'
-```
-
-```
-## The following objects are masked from 'package:stats':
-## 
-##     chisq.test, fisher.test
-```
-
-```r
 if (!require("here")) install.packages('here')
-```
-
-```
-## Loading required package: here
-```
-
-```
-## here() starts at C:/Users/jalat/Desktop/BIS15W2021_Group4_Project
-```
-
-```r
 if (!require("naniar")) install.packages('naniar')
-```
-
-```
-## Loading required package: naniar
-```
-
-```r
 if (!require("stringr")) install.packages('stringr')
 if (!require("shiny")) install.packages('shiny')
-```
-
-```
-## Loading required package: shiny
-```
-
-```r
 if (!require("shinydashboard")) install.packages('shinydashboard')
-```
-
-```
-## Loading required package: shinydashboard
-```
-
-```
-## 
-## Attaching package: 'shinydashboard'
-```
-
-```
-## The following object is masked from 'package:graphics':
-## 
-##     box
 ```
 
 #Library
@@ -135,9 +39,9 @@ The following data sets examine the pollinators, colors, and sizes associated wi
 [Data:](https://datadryad.org/stash/dataset/doi:10.5061/dryad.2710pk5)
 
 ```r
-flower_sizes_original <- read_csv(here("Plant+Pollinators Data", "Flower size measurements.csv")) %>%
+flower_sizes_original <- read_csv(here("group4_project_geralin_natascha_jala_files", "Plant+Pollinators Data", "Flower size measurements.csv")) %>%
   janitor::clean_names()
-colors_and_pollinators_original <- read_csv(here("Plant+Pollinators Data", "Pollinator and flower color.csv")) %>%
+colors_and_pollinators_original <- read_csv(here("group4_project_geralin_natascha_jala_files", "Plant+Pollinators Data", "Pollinator and flower color.csv")) %>%
   janitor::clean_names()
 ```
 
@@ -153,19 +57,19 @@ flower_sizes
 
 ```
 # A tibble: 3,006 x 5
-   herbarium_accessio~ species   flower_number corolla_length_~ corolla_width_t~
+   herbarium_accessio… species   flower_number corolla_length_… corolla_width_t…
    <chr>               <chr>             <dbl>            <dbl>            <dbl>
- 1 Acanthogilia glori~ Acanthog~             1             3.55            0.393
- 2 Acanthogilia glori~ Acanthog~             1             3.70            0.455
- 3 Acanthogilia glori~ Acanthog~             2             2.66            0.37 
- 4 Acanthogilia glori~ Acanthog~             3             2.87            0.375
- 5 Aliciella caespito~ Aliciell~             1             1.65            0.241
- 6 Aliciella caespito~ Aliciell~             2             1.66            0.148
- 7 Aliciella caespito~ Aliciell~             3             1.88            0.201
- 8 Aliciella formosa ~ Aliciell~             1             1.97            0.201
- 9 Aliciella formosa ~ Aliciell~             2             2.12            0.286
-10 Aliciella formosa ~ Aliciell~             3             2.05            0.23 
-# ... with 2,996 more rows
+ 1 Acanthogilia glori… Acanthog…             1             3.55            0.393
+ 2 Acanthogilia glori… Acanthog…             1             3.70            0.455
+ 3 Acanthogilia glori… Acanthog…             2             2.66            0.37 
+ 4 Acanthogilia glori… Acanthog…             3             2.87            0.375
+ 5 Aliciella caespito… Aliciell…             1             1.65            0.241
+ 6 Aliciella caespito… Aliciell…             2             1.66            0.148
+ 7 Aliciella caespito… Aliciell…             3             1.88            0.201
+ 8 Aliciella formosa … Aliciell…             1             1.97            0.201
+ 9 Aliciella formosa … Aliciell…             2             2.12            0.286
+10 Aliciella formosa … Aliciell…             3             2.05            0.23 
+# … with 2,996 more rows
 ```
 ##Checking classes of variables, making changes as necessary
 
@@ -176,11 +80,11 @@ glimpse(flower_sizes)
 ```
 Rows: 3,006
 Columns: 5
-$ herbarium_accession_sheet <chr> "Acanthogilia gloriosa KANU00172801", "Acant~
-$ species                   <chr> "Acanthogilia gloriosa", "Acanthogilia glori~
-$ flower_number             <dbl> 1, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2,~
-$ corolla_length_cm         <dbl> 3.552, 3.696, 2.660, 2.874, 1.652, 1.664, 1.~
-$ corolla_width_throat_cm   <dbl> 0.393, 0.455, 0.370, 0.375, 0.241, 0.148, 0.~
+$ herbarium_accession_sheet <chr> "Acanthogilia gloriosa KANU00172801", "Acant…
+$ species                   <chr> "Acanthogilia gloriosa", "Acanthogilia glori…
+$ flower_number             <dbl> 1, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2,…
+$ corolla_length_cm         <dbl> 3.552, 3.696, 2.660, 2.874, 1.652, 1.664, 1.…
+$ corolla_width_throat_cm   <dbl> 0.393, 0.455, 0.370, 0.375, 0.241, 0.148, 0.…
 ```
 
 Changing `species` from character to factor: 
@@ -191,7 +95,7 @@ is.factor(flower_sizes$species)
 ```
 
 ```
-## [1] TRUE
+[1] TRUE
 ```
 
 
@@ -226,19 +130,19 @@ flower_sizes_calculated #summary of sizes for each species, with means, standard
 
 ```
 # A tibble: 396 x 6
-   species  mean_corolla_len~ std_dev_corolla~ mean_corolla_wi~ std_dev_corolla~
+   species  mean_corolla_len… std_dev_corolla… mean_corolla_wi… std_dev_corolla…
  * <fct>                <dbl>            <dbl>            <dbl>            <dbl>
- 1 Acantho~             3.20            0.506            0.398            0.0391
- 2 Aliciel~             1.73            0.131            0.197            0.0467
- 3 Aliciel~             2.12            0.0894           0.297            0.0645
- 4 Aliciel~             1.58            0.408            0.209            0.0706
- 5 Aliciel~             1.11            0.295            0.145            0.0258
- 6 Aliciel~             0.818           0.129            0.158            0.0640
- 7 Aliciel~             0.556           0.0207           0.0963           0.0205
- 8 Aliciel~             0.518           0.110            0.0963           0.0220
- 9 Aliciel~             0.636           0.0187           0.128            0.0255
-10 Aliciel~             0.665           0.0471           0.141            0.0122
-# ... with 386 more rows, and 1 more variable: mean_length_width_ratio <dbl>
+ 1 Acantho…             3.20            0.506            0.398            0.0391
+ 2 Aliciel…             1.73            0.131            0.197            0.0467
+ 3 Aliciel…             2.12            0.0894           0.297            0.0645
+ 4 Aliciel…             1.58            0.408            0.209            0.0706
+ 5 Aliciel…             1.11            0.295            0.145            0.0258
+ 6 Aliciel…             0.818           0.129            0.158            0.0640
+ 7 Aliciel…             0.556           0.0207           0.0963           0.0205
+ 8 Aliciel…             0.518           0.110            0.0963           0.0220
+ 9 Aliciel…             0.636           0.0187           0.128            0.0255
+10 Aliciel…             0.665           0.0471           0.141            0.0122
+# … with 386 more rows, and 1 more variable: mean_length_width_ratio <dbl>
 ```
 
 
@@ -266,17 +170,17 @@ colors_and_pollinators
 # A tibble: 192 x 5
    species         color    color_source    pollinator         pollinator_source
    <chr>           <chr>    <chr>           <chr>              <chr>            
- 1 Acanthogilia g~ white    Hsu and Hall 2~ hummingbird        Hsu and Hall 2003
- 2 Aliciella caes~ red      Porter 1998     hummingbird        Grant and Grant ~
- 3 Aliciella hutc~ white    Porter 1998     autogamous         Grant and Grant ~
- 4 Aliciella lept~ white    Porter 1998     autogamous         Grant and Grant ~
- 5 Aliciella micr~ white    Porter 1998     autogamous         Grant and Grant ~
- 6 Aliciella pinn~ blue     Porter 1998     bee                Grant and Grant ~
- 7 Aliciella subn~ red      Porter 1998     hummingbird        Grant and Grant ~
- 8 Allophyllum di~ pink     Jepson Online   beefly             Grant and Grant ~
- 9 Allophyllum gi~ blue-pu~ Jepson Online   autogamous         Grant and Grant ~
-10 Allophyllum gl~ blue-pu~ Jepson Online   bee primary, seco~ Grant and Grant ~
-# ... with 182 more rows
+ 1 Acanthogilia g… white    Hsu and Hall 2… hummingbird        Hsu and Hall 2003
+ 2 Aliciella caes… red      Porter 1998     hummingbird        Grant and Grant …
+ 3 Aliciella hutc… white    Porter 1998     autogamous         Grant and Grant …
+ 4 Aliciella lept… white    Porter 1998     autogamous         Grant and Grant …
+ 5 Aliciella micr… white    Porter 1998     autogamous         Grant and Grant …
+ 6 Aliciella pinn… blue     Porter 1998     bee                Grant and Grant …
+ 7 Aliciella subn… red      Porter 1998     hummingbird        Grant and Grant …
+ 8 Allophyllum di… pink     Jepson Online   beefly             Grant and Grant …
+ 9 Allophyllum gi… blue-pu… Jepson Online   autogamous         Grant and Grant …
+10 Allophyllum gl… blue-pu… Jepson Online   bee primary, seco… Grant and Grant …
+# … with 182 more rows
 ```
 ##Checking classes of variables, making changes as necessary
 
@@ -287,11 +191,11 @@ glimpse(colors_and_pollinators)
 ```
 Rows: 192
 Columns: 5
-$ species           <chr> "Acanthogilia gloriosa", "Aliciella caespitosa", "Al~
-$ color             <chr> "white", "red", "white", "white", "white", "blue", "~
-$ color_source      <chr> "Hsu and Hall 2003", "Porter 1998", "Porter 1998", "~
-$ pollinator        <chr> "hummingbird", "hummingbird", "autogamous", "autogam~
-$ pollinator_source <chr> "Hsu and Hall 2003", "Grant and Grant 1965", "Grant ~
+$ species           <chr> "Acanthogilia gloriosa", "Aliciella caespitosa", "Al…
+$ color             <chr> "white", "red", "white", "white", "white", "blue", "…
+$ color_source      <chr> "Hsu and Hall 2003", "Porter 1998", "Porter 1998", "…
+$ pollinator        <chr> "hummingbird", "hummingbird", "autogamous", "autogam…
+$ pollinator_source <chr> "Hsu and Hall 2003", "Grant and Grant 1965", "Grant …
 ```
 
 
@@ -301,7 +205,7 @@ is.factor(colors_and_pollinators$species)
 ```
 
 ```
-## [1] TRUE
+[1] TRUE
 ```
 
 ```r
@@ -310,7 +214,7 @@ is.factor(colors_and_pollinators$color)
 ```
 
 ```
-## [1] TRUE
+[1] TRUE
 ```
 
 ```r
@@ -319,7 +223,7 @@ is.factor(colors_and_pollinators$pollinator)
 ```
 
 ```
-## [1] TRUE
+[1] TRUE
 ```
 
 
@@ -358,19 +262,19 @@ phlox_merge
 
 ```
 # A tibble: 145 x 10
-   species  mean_corolla_len~ std_dev_corolla~ mean_corolla_wi~ std_dev_corolla~
+   species  mean_corolla_len… std_dev_corolla… mean_corolla_wi… std_dev_corolla…
    <fct>                <dbl>            <dbl>            <dbl>            <dbl>
- 1 Acantho~             3.20            0.506            0.398           0.0391 
- 2 Aliciel~             1.73            0.131            0.197           0.0467 
- 3 Aliciel~             0.818           0.129            0.158           0.0640 
- 4 Aliciel~             0.518           0.110            0.0963          0.0220 
- 5 Aliciel~             0.213           0.0110           0.0427          0.00569
- 6 Aliciel~             0.609           0.0376           0.162           0.0202 
- 7 Aliciel~             1.55            0.167            0.228           0.0323 
- 8 Allophy~             0.650           0.0309           0.139           0.0523 
- 9 Allophy~             0.611           0.498            0.121           0.147  
-10 Allophy~             0.685           0.0962           0.114           0.0169 
-# ... with 135 more rows, and 5 more variables: mean_length_width_ratio <dbl>,
+ 1 Acantho…             3.20            0.506            0.398           0.0391 
+ 2 Aliciel…             1.73            0.131            0.197           0.0467 
+ 3 Aliciel…             0.818           0.129            0.158           0.0640 
+ 4 Aliciel…             0.518           0.110            0.0963          0.0220 
+ 5 Aliciel…             0.213           0.0110           0.0427          0.00569
+ 6 Aliciel…             0.609           0.0376           0.162           0.0202 
+ 7 Aliciel…             1.55            0.167            0.228           0.0323 
+ 8 Allophy…             0.650           0.0309           0.139           0.0523 
+ 9 Allophy…             0.611           0.498            0.121           0.147  
+10 Allophy…             0.685           0.0962           0.114           0.0169 
+# … with 135 more rows, and 5 more variables: mean_length_width_ratio <dbl>,
 #   color <fct>, color_source <chr>, pollinator <fct>, pollinator_source <chr>
 ```
 #Final count of the number of species we are working with: 
@@ -380,7 +284,7 @@ n_distinct(phlox_merge$species)
 ```
 
 ```
-## [1] 145
+[1] 145
 ```
 
 After joining the data sheets, we have 145 species that we are working with. 
@@ -422,54 +326,27 @@ phlox_clean_up1 <- phlox_merge %>%
   mutate_all(funs(str_replace(., " hummingbird", "hummingbird"))) %>% #keep repeated mutations, otherwise it will count hummingbird twice in n_distinct()
   mutate_all(funs(str_replace(., " hummingbird", "hummingbird"))) %>%
   separate(pollinator, into=c("pollinator_1", "pollinator_2", "pollinator_3"), sep=",") #there are a maximum of 3 different pollinators in one cell under the pollinator column, so we will separate the original pollinator column into 3 different rows to give each value its own cell; NAs are put in the respective columns for species that have less than 3 different recorded pollinators. 
-```
-
-```
-## Warning: `funs()` was deprecated in dplyr 0.8.0.
-## Please use a list of either functions or lambdas: 
-## 
-##   # Simple named list: 
-##   list(mean = mean, median = median)
-## 
-##   # Auto named with `tibble::lst()`: 
-##   tibble::lst(mean, median)
-## 
-##   # Using lambdas
-##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-```
-
-```
-## Warning: Expected 4 pieces. Missing pieces filled with `NA` in 144 rows [1, 2,
-## 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].
-```
-
-```
-## Warning: Expected 3 pieces. Missing pieces filled with `NA` in 143 rows [1, 2,
-## 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].
-```
-
-```r
 phlox_clean_up1
 ```
 
 ```
-## # A tibble: 145 x 15
-##    species  mean_corolla_len~ std_dev_corolla~ mean_corolla_wi~ std_dev_corolla~
-##    <chr>    <chr>             <chr>            <chr>            <chr>           
-##  1 Acantho~ 3.1955            0.5058705367977~ 0.39825          0.0391013640000~
-##  2 Aliciel~ 1.73366666666667  0.1311957824525~ 0.1966666666666~ 0.0466511879091~
-##  3 Aliciel~ 0.8175            0.1288716415663~ 0.1583333333333~ 0.0640145816721~
-##  4 Aliciel~ 0.518             0.1099602200798~ 0.0963333333333~ 0.0219601912559~
-##  5 Aliciel~ 0.213             0.011            0.0426666666666~ 0.0056862407030~
-##  6 Aliciel~ 0.6095            0.0375752578168~ 0.1625           0.0201866292381~
-##  7 Aliciel~ 1.5465            0.1665713943381~ 0.2278888888888~ 0.0322761774996~
-##  8 Allophy~ 0.650333333333333 0.0308922859842~ 0.1386666666666~ 0.0523099735550~
-##  9 Allophy~ 0.611433333333333 0.4976104752288~ 0.1206333333333~ 0.1472439878365~
-## 10 Allophy~ 0.685             0.0962392851178~ 0.1145           0.0169440254957~
-## # ... with 135 more rows, and 10 more variables: mean_length_width_ratio <chr>,
-## #   color_1 <chr>, color_2 <chr>, color_3 <chr>, color_4 <chr>,
-## #   color_source <chr>, pollinator_1 <chr>, pollinator_2 <chr>,
-## #   pollinator_3 <chr>, pollinator_source <chr>
+# A tibble: 145 x 15
+   species  mean_corolla_len… std_dev_corolla… mean_corolla_wi… std_dev_corolla…
+   <chr>    <chr>             <chr>            <chr>            <chr>           
+ 1 Acantho… 3.1955            0.5058705367977… 0.39825          0.0391013640000…
+ 2 Aliciel… 1.73366666666667  0.1311957824525… 0.1966666666666… 0.0466511879091…
+ 3 Aliciel… 0.8175            0.1288716415663… 0.1583333333333… 0.0640145816721…
+ 4 Aliciel… 0.518             0.1099602200798… 0.0963333333333… 0.0219601912559…
+ 5 Aliciel… 0.213             0.011            0.0426666666666… 0.0056862407030…
+ 6 Aliciel… 0.6095            0.0375752578168… 0.1625           0.0201866292381…
+ 7 Aliciel… 1.5465            0.1665713943381… 0.2278888888888… 0.0322761774996…
+ 8 Allophy… 0.650333333333333 0.0308922859842… 0.1386666666666… 0.0523099735550…
+ 9 Allophy… 0.611433333333333 0.4976104752288… 0.1206333333333… 0.1472439878365…
+10 Allophy… 0.685             0.0962392851178… 0.1145           0.0169440254957…
+# … with 135 more rows, and 10 more variables: mean_length_width_ratio <chr>,
+#   color_1 <chr>, color_2 <chr>, color_3 <chr>, color_4 <chr>,
+#   color_source <chr>, pollinator_1 <chr>, pollinator_2 <chr>,
+#   pollinator_3 <chr>, pollinator_source <chr>
 ```
 
 ##We'll then do a more thorough clean-up under the color columns, making sure that all data is consistent here, as well. 
@@ -507,23 +384,23 @@ phlox_tidy
 ```
 
 ```
-## # A tibble: 145 x 15
-##    species  mean_corolla_len~ std_dev_corolla~ mean_corolla_wi~ std_dev_corolla~
-##    <chr>    <chr>             <chr>            <chr>            <chr>           
-##  1 Acantho~ 3.1955            0.5058705367977~ 0.39825          0.0391013640000~
-##  2 Aliciel~ 1.73366666666667  0.1311957824525~ 0.1966666666666~ 0.0466511879091~
-##  3 Aliciel~ 0.8175            0.1288716415663~ 0.1583333333333~ 0.0640145816721~
-##  4 Aliciel~ 0.518             0.1099602200798~ 0.0963333333333~ 0.0219601912559~
-##  5 Aliciel~ 0.213             0.011            0.0426666666666~ 0.0056862407030~
-##  6 Aliciel~ 0.6095            0.0375752578168~ 0.1625           0.0201866292381~
-##  7 Aliciel~ 1.5465            0.1665713943381~ 0.2278888888888~ 0.0322761774996~
-##  8 Allophy~ 0.650333333333333 0.0308922859842~ 0.1386666666666~ 0.0523099735550~
-##  9 Allophy~ 0.611433333333333 0.4976104752288~ 0.1206333333333~ 0.1472439878365~
-## 10 Allophy~ 0.685             0.0962392851178~ 0.1145           0.0169440254957~
-## # ... with 135 more rows, and 10 more variables: mean_length_width_ratio <chr>,
-## #   color_1 <chr>, color_2 <chr>, color_3 <chr>, color_4 <chr>,
-## #   color_source <chr>, pollinator_1 <chr>, pollinator_2 <chr>,
-## #   pollinator_3 <chr>, pollinator_source <chr>
+# A tibble: 145 x 15
+   species  mean_corolla_len… std_dev_corolla… mean_corolla_wi… std_dev_corolla…
+   <chr>    <chr>             <chr>            <chr>            <chr>           
+ 1 Acantho… 3.1955            0.5058705367977… 0.39825          0.0391013640000…
+ 2 Aliciel… 1.73366666666667  0.1311957824525… 0.1966666666666… 0.0466511879091…
+ 3 Aliciel… 0.8175            0.1288716415663… 0.1583333333333… 0.0640145816721…
+ 4 Aliciel… 0.518             0.1099602200798… 0.0963333333333… 0.0219601912559…
+ 5 Aliciel… 0.213             0.011            0.0426666666666… 0.0056862407030…
+ 6 Aliciel… 0.6095            0.0375752578168… 0.1625           0.0201866292381…
+ 7 Aliciel… 1.5465            0.1665713943381… 0.2278888888888… 0.0322761774996…
+ 8 Allophy… 0.650333333333333 0.0308922859842… 0.1386666666666… 0.0523099735550…
+ 9 Allophy… 0.611433333333333 0.4976104752288… 0.1206333333333… 0.1472439878365…
+10 Allophy… 0.685             0.0962392851178… 0.1145           0.0169440254957…
+# … with 135 more rows, and 10 more variables: mean_length_width_ratio <chr>,
+#   color_1 <chr>, color_2 <chr>, color_3 <chr>, color_4 <chr>,
+#   color_source <chr>, pollinator_1 <chr>, pollinator_2 <chr>,
+#   pollinator_3 <chr>, pollinator_source <chr>
 ```
 
 #The pivot_longer() command will condense our dataframe so that, while still giving each value its own cell, all colors will be under a single column and all pollinators will be under its own single column, as opposed to separated out into colors1-4 and, and pollinators 1-3. 
@@ -544,21 +421,21 @@ phlox_long
 ```
 
 ```
-## # A tibble: 213 x 10
-##    species  mean_corolla_len~ std_dev_corolla~ mean_corolla_wi~ std_dev_corolla~
-##    <chr>    <chr>             <chr>            <chr>            <chr>           
-##  1 Acantho~ 3.1955            0.5058705367977~ 0.39825          0.0391013640000~
-##  2 Aliciel~ 1.73366666666667  0.1311957824525~ 0.1966666666666~ 0.0466511879091~
-##  3 Aliciel~ 0.8175            0.1288716415663~ 0.1583333333333~ 0.0640145816721~
-##  4 Aliciel~ 0.518             0.1099602200798~ 0.0963333333333~ 0.0219601912559~
-##  5 Aliciel~ 0.213             0.011            0.0426666666666~ 0.0056862407030~
-##  6 Aliciel~ 0.6095            0.0375752578168~ 0.1625           0.0201866292381~
-##  7 Aliciel~ 1.5465            0.1665713943381~ 0.2278888888888~ 0.0322761774996~
-##  8 Allophy~ 0.650333333333333 0.0308922859842~ 0.1386666666666~ 0.0523099735550~
-##  9 Allophy~ 0.611433333333333 0.4976104752288~ 0.1206333333333~ 0.1472439878365~
-## 10 Allophy~ 0.685             0.0962392851178~ 0.1145           0.0169440254957~
-## # ... with 203 more rows, and 5 more variables: mean_length_width_ratio <chr>,
-## #   color_source <chr>, pollinator_source <chr>, color <chr>, pollinator <chr>
+# A tibble: 213 x 10
+   species  mean_corolla_len… std_dev_corolla… mean_corolla_wi… std_dev_corolla…
+   <chr>    <chr>             <chr>            <chr>            <chr>           
+ 1 Acantho… 3.1955            0.5058705367977… 0.39825          0.0391013640000…
+ 2 Aliciel… 1.73366666666667  0.1311957824525… 0.1966666666666… 0.0466511879091…
+ 3 Aliciel… 0.8175            0.1288716415663… 0.1583333333333… 0.0640145816721…
+ 4 Aliciel… 0.518             0.1099602200798… 0.0963333333333… 0.0219601912559…
+ 5 Aliciel… 0.213             0.011            0.0426666666666… 0.0056862407030…
+ 6 Aliciel… 0.6095            0.0375752578168… 0.1625           0.0201866292381…
+ 7 Aliciel… 1.5465            0.1665713943381… 0.2278888888888… 0.0322761774996…
+ 8 Allophy… 0.650333333333333 0.0308922859842… 0.1386666666666… 0.0523099735550…
+ 9 Allophy… 0.611433333333333 0.4976104752288… 0.1206333333333… 0.1472439878365…
+10 Allophy… 0.685             0.0962392851178… 0.1145           0.0169440254957…
+# … with 203 more rows, and 5 more variables: mean_length_width_ratio <chr>,
+#   color_source <chr>, pollinator_source <chr>, color <chr>, pollinator <chr>
 ```
 
 
@@ -567,7 +444,7 @@ n_distinct(phlox_long$species) #Checking to see that we still have 145 distinct 
 ```
 
 ```
-## [1] 145
+[1] 145
 ```
 
 #Adding genus column:
@@ -581,21 +458,21 @@ phlox_long %>%
 ```
 
 ```
-## # A tibble: 25 x 2
-## # Groups:   genus [25]
-##    genus            n
-##    <chr>        <int>
-##  1 Acanthogilia     1
-##  2 Aliciella        6
-##  3 Allophyllum      5
-##  4 Bonplandia       1
-##  5 Cantua           3
-##  6 Cobaea           9
-##  7 Collomia         6
-##  8 Dayia            1
-##  9 Eriastrum        5
-## 10 Fouquieria       1
-## # ... with 15 more rows
+# A tibble: 25 x 2
+# Groups:   genus [25]
+   genus            n
+   <chr>        <int>
+ 1 Acanthogilia     1
+ 2 Aliciella        6
+ 3 Allophyllum      5
+ 4 Bonplandia       1
+ 5 Cantua           3
+ 6 Cobaea           9
+ 7 Collomia         6
+ 8 Dayia            1
+ 9 Eriastrum        5
+10 Fouquieria       1
+# … with 15 more rows
 ```
 
 ```r
@@ -608,7 +485,7 @@ phlox_long <- phlox_long %>%
 ```
 
 
-#It's Plotty Time!
+#It's Plotty Time! Analyses:
 
 ```r
 palette <- paletteer_d("rcartocolor::Safe")
@@ -616,10 +493,59 @@ palette
 ```
 
 ```
-## <colors>
-## #88CCEEFF #CC6677FF #DDCC77FF #117733FF #332288FF #AA4499FF #44AA99FF #999933FF #882255FF #661100FF #6699CCFF #888888FF
+<colors>
+#88CCEEFF #CC6677FF #DDCC77FF #117733FF #332288FF #AA4499FF #44AA99FF #999933FF #882255FF #661100FF #6699CCFF #888888FF 
 ```
 
+##Species with min and max length:width ratios
+
+```r
+max(phlox_long$mean_length_width_ratio)
+```
+
+```
+[1] "9.99618611746758"
+```
+
+```r
+phlox_long %>% 
+  filter(mean_length_width_ratio == 9.99618611746758)
+```
+
+```
+# A tibble: 3 x 11
+  species  mean_corolla_len… mean_corolla_wid… mean_length_wid… color pollinator
+  <chr>    <chr>             <chr>             <chr>            <chr> <chr>     
+1 Phlox p… 2.91222222222222  0.291333333333333 9.99618611746758 blue… butterfly 
+2 Phlox p… 2.91222222222222  0.291333333333333 9.99618611746758 pink  butterfly 
+3 Phlox p… 2.91222222222222  0.291333333333333 9.99618611746758 white butterfly 
+# … with 5 more variables: genus <chr>, std_dev_corolla_length <chr>,
+#   std_dev_corolla_width_throat <chr>, color_source <chr>,
+#   pollinator_source <chr>
+```
+
+```r
+min(phlox_long$mean_length_width_ratio)
+```
+
+```
+[1] "1.11005025125628"
+```
+
+```r
+phlox_long %>% 
+  filter(mean_length_width_ratio == 1.11005025125628)
+```
+
+```
+# A tibble: 1 x 11
+  species   mean_corolla_len… mean_corolla_wi… mean_length_wid… color pollinator
+  <chr>     <chr>             <chr>            <chr>            <chr> <chr>     
+1 Cobaea a… 2.209             1.99             1.11005025125628 green bat       
+# … with 5 more variables: genus <chr>, std_dev_corolla_length <chr>,
+#   std_dev_corolla_width_throat <chr>, color_source <chr>,
+#   pollinator_source <chr>
+```
 
 ##Color Analysis
 
@@ -627,22 +553,23 @@ palette
 phlox_long %>% 
   group_by(color) %>% 
   distinct(species) %>% 
-  count(color)
+  count(color) %>% 
+  arrange(desc(n))
 ```
 
 ```
-## # A tibble: 8 x 2
-## # Groups:   color [8]
-##   color               n
-##   <chr>           <int>
-## 1 blue_purple        80
-## 2 bluish_white        1
-## 3 green               5
-## 4 greenish_yellow     1
-## 5 pink               30
-## 6 red                10
-## 7 white              45
-## 8 yellow              7
+# A tibble: 8 x 2
+# Groups:   color [8]
+  color               n
+  <chr>           <int>
+1 blue_purple        80
+2 white              45
+3 pink               30
+4 red                10
+5 yellow              7
+6 green               5
+7 bluish_white        1
+8 greenish_yellow     1
 ```
 
 
@@ -652,6 +579,7 @@ phlox_long %>%
   distinct(species) %>% 
   ggplot(aes(x=color, fill=color)) +
   geom_bar(color = "black", show.legend = FALSE) + #removed legend because it just repeats what the x-axis says 
+  scale_x_discrete(limits=c("blue_purple","white","pink","red","yellow","green", "bluish_white", "greenish_yellow"))+
   scale_fill_manual(values = c("blue_purple" = "slateblue",
                                "bluish_white" = "cadetblue1",
                                "green" = "olivedrab",
@@ -668,109 +596,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-```
-## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family not
-## found in Windows font database
-
-## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family not
-## found in Windows font database
-
-## Warning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family not
-## found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
 
 ##Pollinator Analysis
 
@@ -778,23 +604,24 @@ phlox_long %>%
 phlox_long %>% 
   group_by(pollinator) %>% 
   distinct(species) %>% 
-  count(pollinator)
+  count(pollinator) %>% 
+  arrange(desc(n))
 ```
 
 ```
-## # A tibble: 9 x 2
-## # Groups:   pollinator [9]
-##   pollinator      n
-##   <chr>       <int>
-## 1 autogamous     50
-## 2 bat             4
-## 3 bee            38
-## 4 bee-fly        27
-## 5 beetle          3
-## 6 butterfly      16
-## 7 fly            10
-## 8 hawkmoth       11
-## 9 hummingbird    16
+# A tibble: 9 x 2
+# Groups:   pollinator [9]
+  pollinator      n
+  <chr>       <int>
+1 autogamous     50
+2 bee            38
+3 bee-fly        27
+4 butterfly      16
+5 hummingbird    16
+6 hawkmoth       11
+7 fly            10
+8 bat             4
+9 beetle          3
 ```
 
 
@@ -804,6 +631,7 @@ phlox_long %>%
   distinct(species) %>% 
   ggplot(aes(x= pollinator, fill=pollinator))+
   geom_bar(color = "black", show.legend = FALSE)+
+  scale_x_discrete(limits=c("autogamous","bee","bee-fly","butterfly","hummingbird","hawkmoth", "fly", "bat", "beetle"))+
   scale_fill_manual(values = palette) +
   labs(title = "Pollinators of Phlox",
        x = "Pollinator",
@@ -815,104 +643,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
 
 ```r
 #Feel free to play with aesthetics
@@ -927,7 +658,7 @@ min(phlox_long$mean_corolla_length_cm)
 ```
 
 ```
-## [1] "0.213"
+[1] "0.213"
 ```
 
 ```r
@@ -935,7 +666,7 @@ max(phlox_long$mean_corolla_length_cm)
 ```
 
 ```
-## [1] "6.639"
+[1] "6.639"
 ```
 
 ```r
@@ -943,7 +674,7 @@ class(phlox_long$mean_corolla_length_cm)
 ```
 
 ```
-## [1] "character"
+[1] "character"
 ```
 
 ```r
@@ -952,8 +683,9 @@ is.numeric(phlox_long$mean_corolla_length_cm)
 ```
 
 ```
-## [1] TRUE
+[1] TRUE
 ```
+
 
 
 ```r
@@ -970,200 +702,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 ##Mean Corolla Throat Width (cm)
 
 ```r
@@ -1171,7 +710,7 @@ class(phlox_long$mean_corolla_width_throat_cm)
 ```
 
 ```
-## [1] "character"
+[1] "character"
 ```
 
 ```r
@@ -1180,7 +719,7 @@ class(phlox_long$mean_corolla_width_throat_cm)
 ```
 
 ```
-## [1] "numeric"
+[1] "numeric"
 ```
 
 ```r
@@ -1188,7 +727,7 @@ min(phlox_long$mean_corolla_width_throat_cm)
 ```
 
 ```
-## [1] 0.04266667
+[1] 0.04266667
 ```
 
 ```r
@@ -1196,7 +735,7 @@ max(phlox_long$mean_corolla_width_throat_cm)
 ```
 
 ```
-## [1] 3.531
+[1] 3.531
 ```
 ##Mean Corolla Throat Width (cm)
 
@@ -1215,200 +754,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 ##Corolla Length:Width Ratio 
 
 ```r
@@ -1416,7 +762,7 @@ class(phlox_long$mean_length_width_ratio)
 ```
 
 ```
-## [1] "character"
+[1] "character"
 ```
 
 ```r
@@ -1425,7 +771,7 @@ class(phlox_long$mean_length_width_ratio)
 ```
 
 ```
-## [1] "numeric"
+[1] "numeric"
 ```
 
 ```r
@@ -1433,7 +779,7 @@ min(phlox_long$mean_length_width_ratio)
 ```
 
 ```
-## [1] 1.11005
+[1] 1.11005
 ```
 
 ```r
@@ -1441,7 +787,7 @@ max(phlox_long$mean_length_width_ratio)
 ```
 
 ```
-## [1] 15.62485
+[1] 15.62485
 ```
 
 
@@ -1459,200 +805,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 
 ```r
 phlox_long %>% 
@@ -1669,53 +822,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-```
-## `geom_smooth()` using formula 'y ~ x'
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 #Let's do plots comparing color and pollinators to corolla length:width ratio.
 
@@ -1745,98 +852,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 ##Pollinator and Corolla Length:Width Ratio
 
 ```r
@@ -1856,104 +872,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 #Relative Frequency of Corolla Colors Among Pollinators:  
 
@@ -1980,109 +899,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
 We can start to see some trends in phlox data - we can see that phlox pollinators like hummingbird are overwhelmingly attracted to red flowers. Bees and flies are mostly attracted to the blue_purple range. Bats are mostly attracted to green, but will also pollinate pink or blue_purple.
 
 #Looking at which genera are pollinated by which pollinators: 
@@ -2105,205 +922,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-```
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-
-## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-## font family not found in Windows font database
-```
-
-```
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-
-## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-## family not found in Windows font database
-```
-
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
 #It should be noted, that some genera are only represented by one species so we can't draw any definite conclusions about some genera only being pollinated by one type of pollinator. 
 
 
@@ -2345,3 +964,5 @@ shinyApp(ui, server)
 
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+

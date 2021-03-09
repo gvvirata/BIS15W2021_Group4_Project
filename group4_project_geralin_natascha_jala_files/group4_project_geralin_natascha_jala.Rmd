@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 **Installing Libraries if Necessary (for non-frequent R users)
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 if (!require("tidyverse")) install.packages('tidyverse')
 if (!require("RColorBrewer")) install.packages('RColorBrewer')
 if (!require("paletteer")) install.packages('paletteer')
@@ -38,9 +38,9 @@ library(shinydashboard)
 The following data sets examine the pollinators, colors, and sizes associated with different species of flowers within the phlox family. Source: Landis, Jacob B. et al. (2018), Evolution of floral traits and impact of reproductive mode on diversification in the phlox family (Polemoniaceae), Molecular Phylogenetics and Evolution, Article-journal, https://doi.org/10.1016/j.ympev.2018.06.035
 [Data:](https://datadryad.org/stash/dataset/doi:10.5061/dryad.2710pk5)
 ```{r message=FALSE, warning=FALSE, comment=NA}
-flower_sizes_original <- read_csv(here("Plant+Pollinators Data", "Flower size measurements.csv")) %>%
+flower_sizes_original <- read_csv(here("group4_project_geralin_natascha_jala_files", "Plant+Pollinators Data", "Flower size measurements.csv")) %>%
   janitor::clean_names()
-colors_and_pollinators_original <- read_csv(here("Plant+Pollinators Data", "Pollinator and flower color.csv")) %>%
+colors_and_pollinators_original <- read_csv(here("group4_project_geralin_natascha_jala_files", "Plant+Pollinators Data", "Pollinator and flower color.csv")) %>%
   janitor::clean_names()
 ```
 
@@ -58,7 +58,7 @@ glimpse(flower_sizes)
 ```
 
 Changing `species` from character to factor: 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 flower_sizes$species <- as.factor(flower_sizes$species)
 is.factor(flower_sizes$species)
 ```
@@ -99,7 +99,7 @@ colors_and_pollinators
 glimpse(colors_and_pollinators)
 ```
 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 colors_and_pollinators$species <- as.factor(colors_and_pollinators$species)
 is.factor(colors_and_pollinators$species)
 colors_and_pollinators$color <- as.factor(colors_and_pollinators$color)
@@ -124,7 +124,7 @@ phlox_merge <- inner_join(flower_sizes_calculated, colors_and_pollinators, by = 
 phlox_merge
 ```
 #Final count of the number of species we are working with: 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 n_distinct(phlox_merge$species)
 ```
 
@@ -134,7 +134,7 @@ After joining the data sheets, we have 145 species that we are working with.
 Now that we have our two data sets merged, we can now tidy our data so that it fits the 3 conventions of the tidyverse: (1) each variable has its own column, (2) each observation has its own row, (3) each value has its own cell.
 
 ##We'll start off by giving each value its own cell and ensuring all observations are consistent by converting any plural observations to their singular forms. 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_clean_up1 <- phlox_merge %>%
   mutate_at("color", funs(str_replace(., " or", ", "))) %>% #mutations 1-4 are used to ensure all cells with more than one value are using the same separators, a comma
   mutate_at("color", funs(str_replace(., " and", ", "))) %>%
@@ -172,7 +172,7 @@ phlox_clean_up1
 ##We'll then do a more thorough clean-up under the color columns, making sure that all data is consistent here, as well. 
 We looked to the paper for this study to make decisions on how to group/standardize recorded colors. We settled on the following categories which can then be correlated/attributed to pigments: blue_purple, pink, red (anthocyanins), yellow (carotenoids), green (chloroplasts), and white (lack of pigment). We also retained "bluish_white" and "greenish_yellow" as separate because they crossed over between two different pigment groups. 
 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_tidy <- phlox_clean_up1 %>%
   mutate_all(funs(str_replace(., "light pink", "pink"))) %>%
   mutate_all(funs(str_replace(., "pale pink", "pink"))) %>%
@@ -204,7 +204,7 @@ phlox_tidy
 
 #The pivot_longer() command will condense our dataframe so that, while still giving each value its own cell, all colors will be under a single column and all pollinators will be under its own single column, as opposed to separated out into colors1-4 and, and pollinators 1-3. 
 We removed the columns "color_number" and "pollinator_number" as they are unnecessary. The object `phlox_long` is what we will now use for our analyses.
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long <- phlox_tidy %>% 
   pivot_longer(color_1:color_4,
                names_to = "color_number",
@@ -218,12 +218,12 @@ phlox_long <- phlox_tidy %>%
 phlox_long
 ```
 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 n_distinct(phlox_long$species) #Checking to see that we still have 145 distinct species that we're looking at. 
 ```
 
 #Adding genus column:
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 genus_name <- phlox_long$genus <- word(phlox_long$species, 1)
 phlox_long %>% 
   group_by(genus) %>% 
@@ -231,20 +231,20 @@ phlox_long %>%
   count(genus)
 #Dataframe1$COL2 <- word(Dataframe2$COL1, 1)
 ```
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long <- phlox_long %>% 
   select(species, mean_corolla_length_cm, mean_corolla_width_throat_cm, mean_length_width_ratio, color, pollinator, genus, std_dev_corolla_length, std_dev_corolla_width_throat, color_source, pollinator_source)
 ```
 
 
 #It's Plotty Time! Analyses:
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 palette <- paletteer_d("rcartocolor::Safe")
 palette
 ```
 
 ##Species with min and max length:width ratios
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 max(phlox_long$mean_length_width_ratio)
 phlox_long %>% 
   filter(mean_length_width_ratio == 9.99618611746758)
@@ -254,7 +254,7 @@ phlox_long %>%
 ```
 
 ##Color Analysis
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long %>% 
   group_by(color) %>% 
   distinct(species) %>% 
@@ -262,7 +262,7 @@ phlox_long %>%
   arrange(desc(n))
 ```
 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long %>%
   group_by(color) %>% 
   distinct(species) %>% 
@@ -286,7 +286,7 @@ phlox_long %>%
 ```
 
 ##Pollinator Analysis
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long %>% 
   group_by(pollinator) %>% 
   distinct(species) %>% 
@@ -294,7 +294,7 @@ phlox_long %>%
   arrange(desc(n))
 ```
 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long %>% 
   group_by(pollinator) %>% 
   distinct(species) %>% 
@@ -316,7 +316,7 @@ phlox_long %>%
 #Looking at Genera With Our Continuous Variables of Mean Corolla Length, Mean Corolla Throat Width, and Mean Corolla Length:Width Ratio Using Box Plots:
 
 ##Mean Corolla Length (cm)
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 min(phlox_long$mean_corolla_length_cm)
 max(phlox_long$mean_corolla_length_cm)
 class(phlox_long$mean_corolla_length_cm)
@@ -325,7 +325,7 @@ is.numeric(phlox_long$mean_corolla_length_cm)
 ```
 
 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long %>% 
   ggplot(aes(x=genus, y=mean_corolla_length_cm))+
   geom_boxplot()+
@@ -339,7 +339,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 ##Mean Corolla Throat Width (cm)
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 class(phlox_long$mean_corolla_width_throat_cm)
 phlox_long$mean_corolla_width_throat_cm <- as.numeric(phlox_long$mean_corolla_width_throat_cm)
 class(phlox_long$mean_corolla_width_throat_cm)
@@ -347,7 +347,7 @@ min(phlox_long$mean_corolla_width_throat_cm)
 max(phlox_long$mean_corolla_width_throat_cm)
 ```
 ##Mean Corolla Throat Width (cm)
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long %>% 
   ggplot(aes(x=genus, y=mean_corolla_width_throat_cm))+
   geom_boxplot()+
@@ -362,7 +362,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 ##Corolla Length:Width Ratio 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 class(phlox_long$mean_length_width_ratio)
 phlox_long$mean_length_width_ratio <- as.numeric(phlox_long$mean_length_width_ratio)
 class(phlox_long$mean_length_width_ratio)
@@ -370,7 +370,7 @@ min(phlox_long$mean_length_width_ratio)
 max(phlox_long$mean_length_width_ratio)
 ```
 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long %>% 
   ggplot(aes(x=genus, y=mean_length_width_ratio))+
   geom_boxplot()+
@@ -383,7 +383,7 @@ phlox_long %>%
         axis.title.y = element_text(face = "bold"),
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long %>% 
   ggplot(aes(x=mean_corolla_length_cm, y=mean_corolla_width_throat_cm))+
   geom_jitter()+
@@ -401,7 +401,7 @@ phlox_long %>%
 #Let's do plots comparing color and pollinators to corolla length:width ratio.
 
 ##Color and Corolla Length:Width Ratio
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long %>% 
   group_by(color, mean_length_width_ratio) %>% 
   distinct(species) %>% 
@@ -425,7 +425,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 ##Pollinator and Corolla Length:Width Ratio
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long %>% 
   group_by(pollinator, mean_length_width_ratio) %>% 
   distinct(species) %>% 
@@ -444,7 +444,7 @@ phlox_long %>%
 
 #Relative Frequency of Corolla Colors Among Pollinators:  
 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long %>% 
   ggplot(aes(x = pollinator, fill = color)) + geom_bar(position = position_fill(), color = "black") +
   scale_fill_manual(values = c("blue_purple" = "slateblue",
@@ -469,7 +469,7 @@ We can start to see some trends in phlox data - we can see that phlox pollinator
 
 #Looking at which genera are pollinated by which pollinators: 
 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 phlox_long %>% 
   group_by(genus, pollinator) %>% 
   distinct(species) %>% 
@@ -487,7 +487,7 @@ phlox_long %>%
 ```
 #It should be noted, that some genera are only represented by one species so we can't draw any definite conclusions about some genera only being pollinated by one type of pollinator. 
 
-```{r}
+```{r, comment=NA, warning=FALSE, message=FALSE}
 ui <- fluidPage(
     selectInput("x", "Select Variable", choices = c("genus", "pollinator", "color"),
               selected = "mean_corolla_length_cm"),
