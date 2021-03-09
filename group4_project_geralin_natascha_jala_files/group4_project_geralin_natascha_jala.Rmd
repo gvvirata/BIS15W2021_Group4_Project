@@ -236,6 +236,37 @@ phlox_long <- phlox_long %>%
   select(species, mean_corolla_length_cm, mean_corolla_width_throat_cm, mean_length_width_ratio, color, pollinator, genus, std_dev_corolla_length, std_dev_corolla_width_throat, color_source, pollinator_source)
 ```
 
+```{r}
+glimpse(phlox_long)
+```
+
+```{r}
+phlox_long$species <- as.factor(phlox_long$species)
+phlox_long$mean_corolla_length_cm <- as.numeric(phlox_long$mean_corolla_length_cm)
+phlox_long$mean_corolla_width_throat_cm <- as.numeric(phlox_long$mean_corolla_width_throat_cm)
+phlox_long$mean_length_width_ratio <- as.numeric(phlox_long$mean_length_width_ratio)
+phlox_long$color <- as.factor(phlox_long$color)
+phlox_long$pollinator <- as.factor(phlox_long$pollinator)
+phlox_long$genus <- as.factor(phlox_long$genus)
+phlox_long$std_dev_corolla_length <- as.numeric(phlox_long$std_dev_corolla_length)
+phlox_long$std_dev_corolla_width_throat <- as.numeric(phlox_long$std_dev_corolla_width_throat)
+phlox_long$color_source <- as.factor(phlox_long$color_source)
+phlox_long$pollinator_source <- as.factor(phlox_long$pollinator_source)
+```
+```{r}
+is.factor(phlox_long$species)
+is.numeric(phlox_long$mean_corolla_length_cm)
+is.numeric(phlox_long$mean_corolla_width_throat_cm)
+is.numeric(phlox_long$mean_length_width_ratio)
+is.factor(phlox_long$color)
+is.factor(phlox_long$pollinator)
+is.factor(phlox_long$genus)
+is.numeric(phlox_long$std_dev_corolla_length)
+is.numeric(phlox_long$std_dev_corolla_width_throat)
+is.factor(phlox_long$color_source)
+is.factor(phlox_long$pollinator_source)
+```
+
 
 #It's Plotty Time! Analyses:
 ```{r, comment=NA, warning=FALSE, message=FALSE}
@@ -245,12 +276,16 @@ palette
 
 ##Species with min and max length:width ratios
 ```{r, comment=NA, warning=FALSE, message=FALSE}
-max(phlox_long$mean_length_width_ratio)
-phlox_long %>% 
-  filter(mean_length_width_ratio == 9.99618611746758)
 min(phlox_long$mean_length_width_ratio)
 phlox_long %>% 
-  filter(mean_length_width_ratio == 1.11005025125628)
+  arrange(mean_length_width_ratio) %>% 
+  head()
+```
+```{r}
+max(phlox_long$mean_length_width_ratio)
+phlox_long %>% 
+  arrange(desc(mean_length_width_ratio)) %>% 
+  head()
 ```
 
 ##Color Analysis
@@ -320,8 +355,6 @@ phlox_long %>%
 min(phlox_long$mean_corolla_length_cm)
 max(phlox_long$mean_corolla_length_cm)
 class(phlox_long$mean_corolla_length_cm)
-phlox_long$mean_corolla_length_cm <- as.numeric(phlox_long$mean_corolla_length_cm)
-is.numeric(phlox_long$mean_corolla_length_cm)
 ```
 
 
@@ -340,8 +373,6 @@ phlox_long %>%
 ```
 ##Mean Corolla Throat Width (cm)
 ```{r, comment=NA, warning=FALSE, message=FALSE}
-class(phlox_long$mean_corolla_width_throat_cm)
-phlox_long$mean_corolla_width_throat_cm <- as.numeric(phlox_long$mean_corolla_width_throat_cm)
 class(phlox_long$mean_corolla_width_throat_cm)
 min(phlox_long$mean_corolla_width_throat_cm)
 max(phlox_long$mean_corolla_width_throat_cm)
@@ -363,8 +394,6 @@ phlox_long %>%
 ```
 ##Corolla Length:Width Ratio 
 ```{r, comment=NA, warning=FALSE, message=FALSE}
-class(phlox_long$mean_length_width_ratio)
-phlox_long$mean_length_width_ratio <- as.numeric(phlox_long$mean_length_width_ratio)
 class(phlox_long$mean_length_width_ratio)
 min(phlox_long$mean_length_width_ratio)
 max(phlox_long$mean_length_width_ratio)

@@ -485,6 +485,130 @@ phlox_long <- phlox_long %>%
 ```
 
 
+```r
+glimpse(phlox_long)
+```
+
+```
+## Rows: 213
+## Columns: 11
+## $ species                      <chr> "Acanthogilia gloriosa", "Aliciella caesp…
+## $ mean_corolla_length_cm       <chr> "3.1955", "1.73366666666667", "0.8175", "…
+## $ mean_corolla_width_throat_cm <chr> "0.39825", "0.196666666666667", "0.158333…
+## $ mean_length_width_ratio      <chr> "8.02385436283741", "8.81525423728814", "…
+## $ color                        <chr> "white", "red", "white", "white", "white"…
+## $ pollinator                   <chr> "hummingbird", "hummingbird", "autogamous…
+## $ genus                        <chr> "Acanthogilia", "Aliciella", "Aliciella",…
+## $ std_dev_corolla_length       <chr> "0.505870536797707", "0.131195782452537",…
+## $ std_dev_corolla_width_throat <chr> "0.0391013640000789", "0.046651187909134"…
+## $ color_source                 <chr> "Hsu and Hall 2003", "Porter 1998", "Port…
+## $ pollinator_source            <chr> "Hsu and Hall 2003", "Grant and Grant 196…
+```
+
+
+```r
+phlox_long$species <- as.factor(phlox_long$species)
+phlox_long$mean_corolla_length_cm <- as.numeric(phlox_long$mean_corolla_length_cm)
+phlox_long$mean_corolla_width_throat_cm <- as.numeric(phlox_long$mean_corolla_width_throat_cm)
+phlox_long$mean_length_width_ratio <- as.numeric(phlox_long$mean_length_width_ratio)
+phlox_long$color <- as.factor(phlox_long$color)
+phlox_long$pollinator <- as.factor(phlox_long$pollinator)
+phlox_long$genus <- as.factor(phlox_long$genus)
+phlox_long$std_dev_corolla_length <- as.numeric(phlox_long$std_dev_corolla_length)
+phlox_long$std_dev_corolla_width_throat <- as.numeric(phlox_long$std_dev_corolla_width_throat)
+phlox_long$color_source <- as.factor(phlox_long$color_source)
+phlox_long$pollinator_source <- as.factor(phlox_long$pollinator_source)
+```
+
+```r
+is.factor(phlox_long$species)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.numeric(phlox_long$mean_corolla_length_cm)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.numeric(phlox_long$mean_corolla_width_throat_cm)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.numeric(phlox_long$mean_length_width_ratio)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.factor(phlox_long$color)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.factor(phlox_long$pollinator)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.factor(phlox_long$genus)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.numeric(phlox_long$std_dev_corolla_length)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.numeric(phlox_long$std_dev_corolla_width_throat)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.factor(phlox_long$color_source)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.factor(phlox_long$pollinator_source)
+```
+
+```
+## [1] TRUE
+```
+
+
 #It's Plotty Time! Analyses:
 
 ```r
@@ -500,51 +624,61 @@ palette
 ##Species with min and max length:width ratios
 
 ```r
-max(phlox_long$mean_length_width_ratio)
-```
-
-```
-[1] "9.99618611746758"
-```
-
-```r
-phlox_long %>% 
-  filter(mean_length_width_ratio == 9.99618611746758)
-```
-
-```
-# A tibble: 3 x 11
-  species  mean_corolla_len… mean_corolla_wid… mean_length_wid… color pollinator
-  <chr>    <chr>             <chr>             <chr>            <chr> <chr>     
-1 Phlox p… 2.91222222222222  0.291333333333333 9.99618611746758 blue… butterfly 
-2 Phlox p… 2.91222222222222  0.291333333333333 9.99618611746758 pink  butterfly 
-3 Phlox p… 2.91222222222222  0.291333333333333 9.99618611746758 white butterfly 
-# … with 5 more variables: genus <chr>, std_dev_corolla_length <chr>,
-#   std_dev_corolla_width_throat <chr>, color_source <chr>,
-#   pollinator_source <chr>
-```
-
-```r
 min(phlox_long$mean_length_width_ratio)
 ```
 
 ```
-[1] "1.11005025125628"
+[1] 1.11005
 ```
 
 ```r
 phlox_long %>% 
-  filter(mean_length_width_ratio == 1.11005025125628)
+  arrange(mean_length_width_ratio) %>% 
+  head()
 ```
 
 ```
-# A tibble: 1 x 11
-  species   mean_corolla_len… mean_corolla_wi… mean_length_wid… color pollinator
-  <chr>     <chr>             <chr>            <chr>            <chr> <chr>     
-1 Cobaea a… 2.209             1.99             1.11005025125628 green bat       
-# … with 5 more variables: genus <chr>, std_dev_corolla_length <chr>,
-#   std_dev_corolla_width_throat <chr>, color_source <chr>,
-#   pollinator_source <chr>
+# A tibble: 6 x 11
+  species  mean_corolla_len… mean_corolla_wid… mean_length_wid… color pollinator
+  <fct>                <dbl>             <dbl>            <dbl> <fct> <fct>     
+1 Cobaea …             2.21              1.99              1.11 green bat       
+2 Cobaea …             4.64              3.53              1.31 blue… bat       
+3 Cobaea …             6.06              3.49              1.74 pink  bat       
+4 Cobaea …             4.88              2.31              2.12 gree… autogamous
+5 Cobaea …             4.35              2.04              2.13 green hummingbi…
+6 Giliast…             0.548             0.253             2.16 blue… autogamous
+# … with 5 more variables: genus <fct>, std_dev_corolla_length <dbl>,
+#   std_dev_corolla_width_throat <dbl>, color_source <fct>,
+#   pollinator_source <fct>
+```
+
+```r
+max(phlox_long$mean_length_width_ratio)
+```
+
+```
+## [1] 15.62485
+```
+
+```r
+phlox_long %>% 
+  arrange(desc(mean_length_width_ratio)) %>% 
+  head()
+```
+
+```
+## # A tibble: 6 x 11
+##   species  mean_corolla_len… mean_corolla_wid… mean_length_wid… color pollinator
+##   <fct>                <dbl>             <dbl>            <dbl> <fct> <fct>     
+## 1 Ipomops…              4.35             0.278             15.6 blue… hawkmoth  
+## 2 Phlox d…              4.31             0.278             15.5 blue… hawkmoth  
+## 3 Phlox d…              4.31             0.278             15.5 pink  hawkmoth  
+## 4 Phlox d…              4.31             0.278             15.5 white hawkmoth  
+## 5 Ipomops…              4.06             0.287             14.2 white hawkmoth  
+## 6 Phlox s…              3.13             0.255             12.3 blue… butterfly 
+## # … with 5 more variables: genus <fct>, std_dev_corolla_length <dbl>,
+## #   std_dev_corolla_width_throat <dbl>, color_source <fct>,
+## #   pollinator_source <fct>
 ```
 
 ##Color Analysis
@@ -561,7 +695,7 @@ phlox_long %>%
 # A tibble: 8 x 2
 # Groups:   color [8]
   color               n
-  <chr>           <int>
+  <fct>           <int>
 1 blue_purple        80
 2 white              45
 3 pink               30
@@ -596,7 +730,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
 ##Pollinator Analysis
 
@@ -612,7 +746,7 @@ phlox_long %>%
 # A tibble: 9 x 2
 # Groups:   pollinator [9]
   pollinator      n
-  <chr>       <int>
+  <fct>       <int>
 1 autogamous     50
 2 bee            38
 3 bee-fly        27
@@ -643,7 +777,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 
 ```r
 #Feel free to play with aesthetics
@@ -658,7 +792,7 @@ min(phlox_long$mean_corolla_length_cm)
 ```
 
 ```
-[1] "0.213"
+[1] 0.213
 ```
 
 ```r
@@ -666,7 +800,7 @@ max(phlox_long$mean_corolla_length_cm)
 ```
 
 ```
-[1] "6.639"
+[1] 6.639
 ```
 
 ```r
@@ -674,16 +808,7 @@ class(phlox_long$mean_corolla_length_cm)
 ```
 
 ```
-[1] "character"
-```
-
-```r
-phlox_long$mean_corolla_length_cm <- as.numeric(phlox_long$mean_corolla_length_cm)
-is.numeric(phlox_long$mean_corolla_length_cm)
-```
-
-```
-[1] TRUE
+[1] "numeric"
 ```
 
 
@@ -702,19 +827,10 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 ##Mean Corolla Throat Width (cm)
 
 ```r
-class(phlox_long$mean_corolla_width_throat_cm)
-```
-
-```
-[1] "character"
-```
-
-```r
-phlox_long$mean_corolla_width_throat_cm <- as.numeric(phlox_long$mean_corolla_width_throat_cm)
 class(phlox_long$mean_corolla_width_throat_cm)
 ```
 
@@ -754,19 +870,10 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 ##Corolla Length:Width Ratio 
 
 ```r
-class(phlox_long$mean_length_width_ratio)
-```
-
-```
-[1] "character"
-```
-
-```r
-phlox_long$mean_length_width_ratio <- as.numeric(phlox_long$mean_length_width_ratio)
 class(phlox_long$mean_length_width_ratio)
 ```
 
@@ -805,7 +912,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
 
 ```r
 phlox_long %>% 
@@ -822,7 +929,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
 
 #Let's do plots comparing color and pollinators to corolla length:width ratio.
 
@@ -852,7 +959,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
 ##Pollinator and Corolla Length:Width Ratio
 
 ```r
@@ -872,7 +979,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
 
 #Relative Frequency of Corolla Colors Among Pollinators:  
 
@@ -899,7 +1006,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
 We can start to see some trends in phlox data - we can see that phlox pollinators like hummingbird are overwhelmingly attracted to red flowers. Bees and flies are mostly attracted to the blue_purple range. Bats are mostly attracted to green, but will also pollinate pink or blue_purple.
 
 #Looking at which genera are pollinated by which pollinators: 
@@ -922,7 +1029,7 @@ phlox_long %>%
         plot.title=element_text(size = rel(1.5), face="bold", hjust=.5))
 ```
 
-![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+![](group4_project_geralin_natascha_jala_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
 #It should be noted, that some genera are only represented by one species so we can't draw any definite conclusions about some genera only being pollinated by one type of pollinator. 
 
 
